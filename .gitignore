@@ -1,3 +1,4 @@
 .idea/
 /sao.iml
 node_modules/
+/config.js
