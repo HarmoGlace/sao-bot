@@ -1,4 +1,5 @@
 const { AkairoClient } = require('discord-akairo');
+const config = require('../config');
 
 class Client extends AkairoClient {
 
@@ -8,6 +9,8 @@ class Client extends AkairoClient {
         }, {
             partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER']
         })
+        
+        this.config = config;
 
         this.commandHandler = new CustomHandler(this, {
             directory: './commands/',
@@ -35,7 +38,7 @@ class Client extends AkairoClient {
         this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
         this.inhibitorHandler.loadAll();
 
-        this.commandHandler.loadAll()
+        this.commandHandler.loadAll();
 
     }
 
