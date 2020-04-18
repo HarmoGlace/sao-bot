@@ -1,6 +1,8 @@
 const { AkairoClient, InhibitorHandler, ListenerHandler } = require('discord-akairo');
+const { Collection } = require('discord.js');
 const Enmap = require('enmap');
 const Team = require('./Team');
+const teams = require('./teams');
 const Handler = require('./Handler');
 const config = require('../config');
 
@@ -13,7 +15,25 @@ class Client extends AkairoClient {
             partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER']
         })
 
-        this.teams = new Enmap({name: 'teams'})
+        this.teamsDB = new Enmap({name: 'teams'});
+
+        this.teams = {
+            all: new Collection(),
+            get: (id) => {
+                return this.teams.all.get(id);
+                },
+            find: (findFunction) => {
+                return this.teams.all.find(findFunction);
+            },
+            resolve: (resolvable) => {
+                    resolvable = resolvable.toLowerCase();
+                    return this.teams.all.find(team => team.name.toLowerCase() === resolvable || team.id.toLowerCase() === resolvable || team.aliases.includes(resolvable)) || this.teams.all.find(team => resolvable.startsWith(team.name.toLowerCase()) || resolvable.startsWith(team.id.toLowerCase()));
+                },
+        }
+
+        for (const {id, name, aliases = [], role} of teams) {
+            this.teams.all.set(id, new Team(this, {id: id, name: name, aliases: aliases, roleId: role}));
+        }
 
         this.Team = Team;
 
@@ -48,6 +68,11 @@ class Client extends AkairoClient {
         this.commandHandler.loadAll();
 
     }
+
+    get server() {
+        return this.guilds.cache.get(config.serverId);
+    }
+
 
 }
 

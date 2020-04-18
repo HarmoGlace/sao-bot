@@ -4,16 +4,20 @@ class Team {
 
     constructor(client, {
         name: name,
-        role: role,
-        id: id
+        roleId: roleId,
+        id: id,
+        aliases: aliases
     } = {}) {
         this.client = client;
 
-        this.dataBase = client.teams;
+        client.teams.all.set(id, this);
+
+        this.dataBase = client.teamsDB;
 
         this.name = name;
-        this.role = role;
+        this.roleId = roleId;
         this.id = id;
+        this.aliases = aliases;
 
         this.dataBase.ensure(id, {
             points: 0
@@ -33,6 +37,13 @@ class Team {
                 return this.dataBase.set(id, points, 'points');
             }
         }
+
+    }
+
+    initialize = () => {
+        this.role = this.client.server.roles.cache.get(this.roleId);
+
+        return true;
     }
 
 }
