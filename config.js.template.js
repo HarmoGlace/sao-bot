@@ -1,5 +1,6 @@
 const config = {
-    token: ''
+    token: '',
+    serverId: ''
 }
 
 module.exports = config;
