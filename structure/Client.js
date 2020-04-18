@@ -1,4 +1,7 @@
-const { AkairoClient } = require('discord-akairo');
+const { AkairoClient, InhibitorHandler, ListenerHandler } = require('discord-akairo');
+const Enmap = require('enmap');
+const Team = require('./Team');
+const Handler = require('./Handler');
 const config = require('../config');
 
 class Client extends AkairoClient {
@@ -9,10 +12,20 @@ class Client extends AkairoClient {
         }, {
             partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER']
         })
-        
+
+        this.teams = new Enmap({name: 'teams'})
+
+        this.Team = Team;
+
+        this.test = new Team(this,  {
+            name: 'test',
+            id: 'test',
+            role: 'test'
+        });
+
         this.config = config;
 
-        this.commandHandler = new CustomHandler(this, {
+        this.commandHandler = new Handler(this, {
             directory: './commands/',
             prefix: "!",
             allowMention: true

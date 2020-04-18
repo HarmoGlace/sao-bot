@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "better-sqlite3": "^6.0.1",
     "discord-akairo": "github:discord-akairo/discord-akairo",
-    "discord.js": "github:discordjs/discord.js"
+    "discord.js": "github:discordjs/discord.js",
+    "enmap": "^5.2.4"
   }
 }
