@@ -17,6 +17,7 @@ class Command extends AkairoCommand {
             typing = false,
             cooldown = null,
             ratelimit = 1,
+            location = 'guild',
             argumentDefaults = {},
             description = '',
             prefix = this.prefix,
@@ -31,6 +32,11 @@ class Command extends AkairoCommand {
             flags = [],
             optionFlags = []
         } = options;
+
+        this.location = location;
     }
 
+
 }
+
+module.exports = Command;
