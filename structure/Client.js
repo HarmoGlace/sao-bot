@@ -16,7 +16,7 @@ class Client extends AkairoClient {
         this.teams = new Enmap({name: 'teams'})
 
         this.Team = Team;
-        
+
         this.config = config;
 
         this.commandHandler = new Handler(this, {

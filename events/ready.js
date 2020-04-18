@@ -11,11 +11,9 @@ class Ready extends Listener {
     exec() {
         const client = this.client;
 
-        console.log(`Started on ${client}`);
+        console.log(`Started on ${client.user.tag} on ${client.guilds.cache.size} guilds`);
 
-        console.log(client.test);
 
-        console.log(client.test.points.get(), client.test.points.add(1));
 
     }
 }
