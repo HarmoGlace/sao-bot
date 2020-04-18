@@ -6,9 +6,15 @@ const teams = [
         aliases: [''], // Team name Aliases
         subTeams: [
             {
-                id: 'team2', // SubTeam ID
+                id: 'sousteam1', // SubTeam ID
                 name: 'Tres Belle team', // SubTeam name
                 role: '701108549484281896', // SubTeam role ID
+                aliases: [''], // SubTeam name Aliases
+            },
+            {
+                id: 'sousteam2', // SubTeam ID
+                name: 'Team 2 s', // SubTeam name
+                role: '701156027130707968', // SubTeam role ID
                 aliases: [''], // SubTeam name Aliases
             }
         ]
