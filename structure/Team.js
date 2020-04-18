@@ -42,7 +42,7 @@ class Team {
                 add: (points) => {
                     return this.points.set(this.points.get() + points);
                 },
-                remove: () => {
+                remove: (points) => {
                     return this.points.set(this.points.get() - points);
                 },
                 set: (points) => {
