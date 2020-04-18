@@ -98,6 +98,13 @@ class Client extends AkairoClient {
         return this.guilds.cache.get(config.serverId);
     }
 
+    pointsUpdate = () => {
+
+        const channel = this.server.channels.cache.get(config.channels.points);
+
+
+    }
+
 
 }
 
