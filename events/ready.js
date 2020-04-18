@@ -17,7 +17,11 @@ class Ready extends Listener {
             initialize();
         }
 
+        console.log(client.teams.all, client.teams.parents(), client.teams.subs());
 
+        const team2 = client.teams.subs().first();
+
+        team2.points.set(1500);
     }
 }
 

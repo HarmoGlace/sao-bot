@@ -15,10 +15,17 @@ class Client extends AkairoClient {
             partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER']
         })
 
-        this.teamsDB = new Enmap({name: 'teams'});
+        this.parentTeamsDB = new Enmap({name: 'parentTeams'});
+        this.subsTeamsDB = new Enmap({name: 'subsTeams'});
 
         this.teams = {
             all: new Collection(),
+            parents: () => {
+                return this.teams.all.filter(team => team.type === 'parent');
+            },
+            subs: () => {
+                return this.teams.all.filter(teams => teams.type == 'sub');
+            },
             get: (id) => {
                 return this.teams.all.get(id);
                 },
@@ -29,10 +36,28 @@ class Client extends AkairoClient {
                     resolvable = resolvable.toLowerCase();
                     return this.teams.all.find(team => team.name.toLowerCase() === resolvable || team.id.toLowerCase() === resolvable || team.aliases.includes(resolvable)) || this.teams.all.find(team => resolvable.startsWith(team.name.toLowerCase()) || resolvable.startsWith(team.id.toLowerCase()));
                 },
-        }
+        };
 
-        for (const {id, name, aliases = [], role} of teams) {
-            this.teams.all.set(id, new Team(this, {id: id, name: name, aliases: aliases, roleId: role}));
+        for (const {id, name, aliases = [], role, subTeams} of teams) {
+            const parent = this.teams.all.set(id, new Team(this, {
+                id: id,
+                name: name,
+                aliases: aliases,
+                roleId: role,
+                type: 'parent',
+                subsId: subTeams.map(subTeam => subTeam.id)
+            }));
+
+            for (const subTeam of subTeams) {
+                this.teams.all.set(subTeam.id,  new Team(this,  {
+                    id: subTeam.id,
+                    name: subTeam.name,
+                    aliases: subTeam.aliases || [],
+                    roleId: subTeam.role,
+                    type: 'sub',
+                    parent: id
+                }));
+            }
         }
 
         this.Team = Team;
