@@ -55,7 +55,7 @@ class Client extends AkairoClient {
                     aliases: subTeam.aliases || [],
                     roleId: subTeam.role,
                     type: 'sub',
-                    parent: id
+                    parentId: id
                 }));
             }
         }
@@ -124,15 +124,125 @@ class Client extends AkairoClient {
 
     }
 
-    updatePoints = () => {
+    updatePoints = async () => {
 
         const channel = this.server.channels.cache.get(config.channels.points);
+        const message = await channel.messages.fetch(config.messages.points);
 
+        const parents = this.teams.parents();
+
+        parents.sort((a, b) => b.points.get() - a.points.get());
+
+        let fields = [];
+        let content;
+        let index;
+
+        for (const parent of parents.array()) {
+            console.log(parent);
+            parent.subs.sort((a, b) => b.points.current() - a.points.current());
+
+            index = 1;
+            content = [];
+
+            for (const sub of parent.subs.array()) {
+
+                const emote = this.getPositionEmote(index);
+
+                content.push(`${emote} ${sub.name} - ${sub.points.current()} points`)
+
+                index++;
+            }
+
+            fields.push({name: `${parent.name} - ${parent.points.get()} points :`, value: content.join('\n')})
+
+        }
+
+        message.edit('', {embed : {
+                title: 'Points des équipes',
+                fields: fields,
+                color: parents.first().color
+            }})
 
     }
 
     spaceNumber (number) {
         return number.toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+    }
+
+    getPositionEmote (position) {
+
+        const specialEmotes = [
+            {
+                position: 1,
+                emote: "🥇"
+            },
+            {
+                position: 2,
+                emote: "🥈"
+            },
+            {
+                position: 3,
+                emote: "🥉"
+            }
+        ];
+        const emotes = [
+            {
+                position: 10,
+                emote: "🔟"
+            },
+            {
+                position: 0,
+                emote: "0️⃣"
+            },
+            {
+                position: 1,
+                emote: "1️⃣"
+            },
+            {
+                position: 2,
+                emote: "2️⃣"
+            },
+            {
+                position: 3,
+                emote: "3️⃣"
+            },
+            {
+                position: 4,
+                emote: "4️⃣"
+            },
+            {
+                position: 5,
+                emote: "5️⃣"
+            },
+            {
+                position: 6,
+                emote: "6️⃣"
+            },
+            {
+                position: 7,
+                emote: "7️⃣"
+            },
+            {
+                position: 8,
+                emote: "8️⃣"
+            },
+            {
+                position: 9,
+                emote: "9️⃣"
+            }
+        ];
+
+        let emote = position.toString();
+
+        if (position <= 3 && position >= 1) {
+            emote = specialEmotes.find(e => e.position == position).emote
+        } else {
+            emotes.forEach(e => {
+                emote = emote.replace(e.position.toString(), e.emote)
+            })
+        }
+
+        return emote;
     }
 
 
