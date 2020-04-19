@@ -98,6 +98,32 @@ class Client extends AkairoClient {
         return this.guilds.cache.get(config.serverId);
     }
 
+    getMemberTeam = (member) => {
+
+        const subTeams = this.teams.subs();
+        let memberTeam;
+
+        for (const subTeam of subTeams.array()) {
+            if (member.roles.cache.has(subTeam.role.id)) memberTeam = subTeam;
+        }
+
+        return memberTeam || null;
+
+    }
+
+    getMemberTeams = (member) => {
+
+        const subTeams = this.teams.subs();
+        let memberTeams;
+
+        for (const subTeam of subTeams) {
+            if (member.roles.cache.has(subTeam.role.id)) memberTeams.push(subTeam);
+        }
+
+        return memberTeams;
+
+    }
+
     pointsUpdate = () => {
 
         const channel = this.server.channels.cache.get(config.channels.points);
