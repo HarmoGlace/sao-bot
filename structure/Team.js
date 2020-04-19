@@ -9,7 +9,8 @@ class Team {
         aliases,
         type = 'parent',
         parentId = null,
-        subsId = null
+        subsId = null,
+        color
     } = {}) {
         this.client = client;
 
@@ -87,6 +88,8 @@ class Team {
         const client = this.client;
 
         this.role = client.server.roles.cache.get(this.roleId);
+
+        if (!this.color) this.color = this.role.color;
 
         const type = this.type;
 
