@@ -3,7 +3,7 @@ const Command = require('../structure/Command');
 class Points extends Command {
     constructor() {
         super('points', { // id
-            aliases: ['points'],
+            aliases: ['points', 'point'],
             userPermissions: ['ADMINISTRATOR'],
             args: [
                 {
