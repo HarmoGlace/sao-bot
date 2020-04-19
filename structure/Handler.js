@@ -785,17 +785,18 @@ class Handler extends AkairoHandler {
                 if (err.message == "The user aborted a request.") {
                     message.channel.send(`${msg.author}, j'ai eu un problème avec l'api de discord ! Réessaye`)
                 } else {
-                    const errorid = randomstring.generate({
-                        length: 12,
-                        readable: true,
-                        capitalization: "lowercase"
-                    })
+                    console.error(err);
+                    // const errorid = randomstring.generate({
+                    //     length: 12,
+                    //     readable: true,
+                    //     capitalization: "lowercase"
+                    // })
                     message.channel.send(`${message.author},`, {embed : {
                         color: 0xff0000,
                         title: "Une erreur est survenue lors de l'exécution de la commande :(",
-                        description: `Le problème a été signalé au staff. Il sera résolu dès que possible.\n**Id de l'erreur : \`\`${errorid}\`\` __(à conserver)__**`
+                        description: `Le problème a été signalé au staff. Il sera résolu dès que possible.`
                     }})
-                    this.client.logCommandError(err, message, command, errorid)
+                    // this.client.logCommandError(err, message, command)
                 }
 
             }
