@@ -124,11 +124,15 @@ class Client extends AkairoClient {
 
     }
 
-    pointsUpdate = () => {
+    updatePoints = () => {
 
         const channel = this.server.channels.cache.get(config.channels.points);
 
 
+    }
+
+    spaceNumber (number) {
+        return number.toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " ")
     }
 
 

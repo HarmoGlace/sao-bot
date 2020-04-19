@@ -7,7 +7,7 @@ class Eval extends Command {
             args: [
                 {
                     id: 'eval',
-                    type: "string",
+                    type: 'string',
                     match: 'separate'
                 }
             ],
