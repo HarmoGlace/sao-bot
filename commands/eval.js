@@ -10,12 +10,13 @@ class Eval extends Command {
                     type: "string",
                     match: 'separate'
                 }
-            ]
+            ],
+            ownerOnly: true
         })
     }
 
     async exec(msg, args) {
-        console.log('execute')
+
         const client = this.client
 
         function exec(callback){
