@@ -138,7 +138,7 @@ class Client extends AkairoClient {
         let index;
 
         for (const parent of parents.array()) {
-            console.log(parent);
+
             parent.subs.sort((a, b) => b.points.current() - a.points.current());
 
             index = 1;
@@ -148,12 +148,12 @@ class Client extends AkairoClient {
 
                 const emote = this.getPositionEmote(index);
 
-                content.push(`${emote} ${sub.name} - ${sub.points.current()} points`)
+                content.push(`${emote} ${sub.name} - ${this.spaceNumber(sub.points.current())} points`)
 
                 index++;
             }
 
-            fields.push({name: `${parent.name} - ${parent.points.get()} points :`, value: content.join('\n')})
+            fields.push({name: `${parent.name} - ${this.spaceNumber(parent.points.get())} points :`, value: content.join('\n')})
 
         }
 
