@@ -26,7 +26,7 @@ class Points extends Command {
         if (!argsList || !argsList.args || !typeList.includes(argsList.args[0].toLowerCase())) return msg.channel.send(`${msg.author}, spécifie un type d'action. ${syntax}`);
 
         const { args } = argsList;
-        let [type, teamResolvable, number, reason = 'Aucune raison spécifiée'] = args;
+        let [type, teamResolvable, number, ...reason] = args;
 
         type = type.toLowerCase();
 
@@ -39,6 +39,9 @@ class Points extends Command {
         if (!number || isNaN(number)) return msg.channel.send(`${msg.author}, spécifie un nombre valide. ${syntax}`);
 
         const points = parseInt(number);
+
+        if (!reason) reason = 'Aucune raison spécifiée'
+        else reason = reason.join(' ')
 
         if (type === 'add') {
             team.points.add(points);
