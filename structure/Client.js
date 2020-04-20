@@ -153,7 +153,7 @@ class Client extends AkairoClient {
                 index++;
             }
 
-            fields.push({name: `${parent.name} - ${this.spaceNumber(parent.points.get())} points :`, value: content.join('\n')})
+            fields.push({name: `${parent.name} - ${this.spaceNumber(parent.points.get())} points :`, value: content.join('\n'), inline: false})
 
         }
 
