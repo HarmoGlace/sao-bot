@@ -153,13 +153,13 @@ class Client extends AkairoClient {
                 index++;
             }
 
-            fields.push({name: `${parent.name} - ${this.spaceNumber(parent.points.get())} points :`, value: content.join('\n'), inline: false})
+            fields.push({name: `**${parent.name}** - ${this.spaceNumber(parent.points.get())} points :`, value: content.join('\n'), inline: false})
 
         }
 
         message.edit('', {embed : {
                 title: 'Points des équipes',
-                fields: fields,
+                description: fields.map(field => `${field.name}\n${field.value}`).join('\n\n'),
                 color: parents.first().color
             }})
 
