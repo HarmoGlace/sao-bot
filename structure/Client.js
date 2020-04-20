@@ -15,8 +15,12 @@ class Client extends AkairoClient {
             partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER']
         })
 
-        this.parentTeamsDB = new Enmap({name: 'parentTeams'});
-        this.subsTeamsDB = new Enmap({name: 'subsTeams'});
+        this.parentTeamsDB = new Enmap({name: 'parentTeams', ensureProps: true});
+        this.subsTeamsDB = new Enmap({name: 'subsTeams', ensureProps: true});
+        this.usersDB = new Enmap({name: 'users', ensureProps: true});
+        this.othersDB = new Enmap({name: 'others', ensureProps: true});
+
+        this.ensureOthers();
 
         this.teams = {
             all: new Collection(),
@@ -114,13 +118,29 @@ class Client extends AkairoClient {
     getMemberTeams = (member) => {
 
         const subTeams = this.teams.subs();
-        let memberTeams;
 
-        for (const subTeam of subTeams) {
+        let memberTeams = [];
+
+        for (const subTeam of subTeams.array()) {
             if (member.roles.cache.has(subTeam.role.id)) memberTeams.push(subTeam);
         }
 
         return memberTeams;
+
+    }
+
+    hasTeams = (member, teams) =>  {
+
+        const memberTeams = this.getMemberTeams(member);
+        if (teams[0] === '[ALL]') return memberTeams.length >= 1;
+
+        const mutualTeams = [];
+
+        for (const team of teams) {
+            if (memberTeams.includes(team)) mutualTeams.push(team);
+        }
+
+        return mutualTeams.length >= 1;
 
     }
 
@@ -148,12 +168,12 @@ class Client extends AkairoClient {
 
                 const emote = this.getPositionEmote(index);
 
-                content.push(`${emote} ${sub.name} - ${this.spaceNumber(sub.points.current())} points`)
+                content.push(`${emote} ${sub.name} - ${this.spaceNumber(sub.points.current())} points`);
 
                 index++;
             }
 
-            fields.push({name: `**${parent.name}** - ${this.spaceNumber(parent.points.get())} points :`, value: content.join('\n'), inline: false})
+            fields.push({name: `**${parent.name}** - ${this.spaceNumber(parent.points.get())} points :`, value: content.join('\n'), inline: false});
 
         }
 
@@ -165,12 +185,28 @@ class Client extends AkairoClient {
                     text: 'Dernière mise à jour '
                 },
                 timestamp: new Date()
-            }})
+            }});
+
+    }
+
+    ensureMember = (user) => {
+
+        this.usersDB.ensure(user.id, {
+            teams: [],
+            xp: 0,
+            level: 0
+        });
+
+    }
+
+    ensureOthers = () => {
+
+        this.othersDB.ensure('competition', false);
 
     }
 
     spaceNumber (number) {
-        return number.toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+        return number.toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
 
     getPositionEmote (position) {
@@ -239,11 +275,11 @@ class Client extends AkairoClient {
         let emote = position.toString();
 
         if (position <= 3 && position >= 1) {
-            emote = specialEmotes.find(e => e.position == position).emote
+            emote = specialEmotes.find(e => e.position == position).emote;
         } else {
             emotes.forEach(e => {
-                emote = emote.replace(e.position.toString(), e.emote)
-            })
+                emote = emote.replace(e.position.toString(), e.emote);
+            });
         }
 
         return emote;

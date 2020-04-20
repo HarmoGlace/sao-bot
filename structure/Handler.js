@@ -606,9 +606,15 @@ class Handler extends AkairoHandler {
             return true;
         }
 
+        if (message.guild) this.client.ensureMember(message.member);
 
+        if (this.runCompetitionCheck(message, command)) {
+            return true;
+        }
 
-        // this.client.ensureUser(message.author)
+        if (this.runTeamCheck(message, command)) {
+            return true;
+        }
 
         if (await this.runPermissionChecks(message, command)) {
             return true;
@@ -708,6 +714,32 @@ class Handler extends AkairoHandler {
 
         return false;
 
+    }
+
+    runCompetitionCheck (msg, command) {
+
+        if (!msg.guild) return true;
+
+        const enabled = this.client.othersDB.get('competition');
+
+        if (!enabled) {
+            this.emit('competitionDisabled', msg, command);
+            return true;
+        }
+
+        return false;
+    }
+
+    runTeamCheck (msg, command) {
+        const teamsRaw = command.teamsNeeded;
+        const teams = typeof teamsRaw === 'string' ? [teamsRaw] : teamsRaw;
+
+        if (!this.client.hasTeams(msg.member, teams)) {
+            this.emit('neededTeamError', msg, command, teams)
+            return true;
+        }
+
+        return false;
     }
 
 
