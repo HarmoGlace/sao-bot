@@ -160,7 +160,11 @@ class Client extends AkairoClient {
         message.edit('', {embed : {
                 title: 'Points des équipes',
                 description: fields.map(field => `${field.name}\n${field.value}`).join('\n\n'),
-                color: parents.first().color
+                color: parents.first().color,
+                footer: {
+                    text: 'Dernière mise à jour '
+                },
+                timestamp: new Date()
             }})
 
     }
