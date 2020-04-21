@@ -99,8 +99,9 @@ class DestructionAction extends Listener {
         if (current - kills < 0) {
             kills -= kills - current;
             current = 0;
-
         }
+
+        if (current !== 0) current -= kills;
 
 
         const team = client.getMemberTeam(msg.member);
