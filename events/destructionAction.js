@@ -113,7 +113,10 @@ class DestructionAction extends Listener {
             client.othersDB.set('destruction', [{id: team.id, kills: kills}], 'teams')
         } else {
             const index = teams.indexOf(teamDB);
-            client.othersDB.set('destruction', teams.splice(index, 1, {id: teamDB.id, kills: teamDB.kills + kills}), 'teams');
+
+            teams.splice(index, 1, {id: teamDB.id, kills: teamDB.kills + kills});
+
+            client.othersDB.set('destruction', teams, 'teams');
         }
 
         client.othersDB.set('destruction', current, 'villagers.current');

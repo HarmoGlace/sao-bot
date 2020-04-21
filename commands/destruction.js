@@ -16,7 +16,6 @@ class Destruction extends Command {
 
         if (started) return msg.channel.send(`${msg.author}, une partie est déjà en cours !`);
 
-
         const villagers = client.random(25, 400);
         const timeout = Math.floor(client.random(120, villagers / 2 + 120)) * 1000;
 
