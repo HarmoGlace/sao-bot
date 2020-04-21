@@ -51,23 +51,13 @@ class DestructionAction extends Listener {
         if (Date.now() > end) return client.emit('destructionEnd', msg, 'timeout');
 
         if (match.cooldown) {
-            const cooldown = match.cooldown;
 
-            client.ensureMember(msg.member);
+            const reaming = client.isCooldown({member: msg.member, type: 'spell', cooldown: match.cooldown, id: match.id});
 
-            const member = client.usersDB.get(msg.member.id);
-            const memberCooldown = member.cooldowns.spells[match.id];
-
-            const end = memberCooldown + cooldown;
-            const reaming = end - Date.now();
-
-            if (!memberCooldown) {
-                client.usersDB.set(msg.member.id, Date.now(), `cooldowns.spells.${match.id}`)
-            } else {
                 if (reaming > 0) {
                     return msg.channel.send(`${msg.author}, tu dois encore attendre ${client.getTime(reaming)} avant de pouvoir utiliser ceci !`)
                 }
-            }
+
         }
 
         const member = client.usersDB.get(msg.author.id);

@@ -754,26 +754,14 @@ class Handler extends AkairoHandler {
      */
     runCooldowns(message, command) {
 
-        const cooldown = message.cooldown
+        if (message.system || message.author.bot || !message.cooldown) return false;
 
-        if (message.system || message.author.bot || !cooldown) return false;
+        const reaming = client.isCooldown({member: message.member, type: 'command', cooldown: command.cooldown, id: command.id});
 
-        client.ensureMember(message.member);
-
-        const member = client.usersDB.get(message.member.id);
-        const memberCooldown = member.cooldowns.commands[command.id];
-
-        const end = memberCooldown + cooldown;
-        const reaming = end - Date.now();
-
-        if (!memberCooldown) {
-            client.usersDB.set(message.member.id, Date.now() + cooldown, `cooldowns.commands.${command.id}`)
-        } else {
             if (reaming > 0) {
                 this.emit(CommandHandlerEvents.COOLDOWN, message, command, reaming)
                 return true;
             }
-        }
 
         return false;
 

@@ -36,7 +36,13 @@ class DestructionEnd extends Listener {
             logs.push({team: team, points: points, percentage: (teamRatio * 100).toFixed(1)});
         }
 
-        msg.channel.send(`Fin ! Voici les points rapportés :\n\n\`\`${logs.map(team => `${team.team.name} : ${team.points} points (${team.percentage} %)`).join('``\n```')}\`\``);
+        if (logs.length === 0) {
+            msg.channel.send(`Fin ! Personne n'a gagné de point :'(`)
+        } else {
+            msg.channel.send(`Fin ! Voici les points rapportés :\n\n\`\`${logs.map(team => `${team.team.name} : ${team.points} points (${team.percentage} %)`).join('``\n```')}\`\``);
+        }
+
+
 
         // msg.channel.send(`Les chevaliers de l'intégrité sont arrivés ! Villageois tués : ${ratio}%`)
 

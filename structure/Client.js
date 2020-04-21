@@ -225,6 +225,50 @@ class Client extends AkairoClient {
 
     }
 
+    getCooldown = ({member, type = 'command', id, cooldown}) => {
+        type = `${type}s`
+        this.ensureMember(member);
+
+        const memberDB = this.usersDB.get(member.id);
+        const memberCooldown = memberDB.cooldowns[type][id];
+
+        if (!memberCooldown) {
+            // client.usersDB.set(message.member.id, Date.now(), `cooldowns.${type}.${id}`);
+            return 0;
+        }
+
+        const end = memberCooldown + cooldown;
+        console.log(end);
+        const reaming = end - Date.now();
+
+        return reaming;
+    }
+
+    setCooldown = ({member, type = 'command', coooldown, id}) => {
+
+        type = `${type}s`
+        this.ensureMember(member);
+
+        this.usersDB.set(member.id, Date.now(), `cooldowns.${type}.${id}`);
+        return true;
+    }
+
+    isCooldown = ({member, type = 'command', cooldown, id}) => {
+
+        this.ensureMember(member);
+
+        const currentCooldown = this.getCooldown({member, type, cooldown, id});
+        console.log(currentCooldown);
+
+        if (!currentCooldown || currentCooldown <= 0) {
+            this.setCooldown({member, type, cooldown, id});
+            return 0;
+        }
+
+        return currentCooldown;
+
+    }
+
     spaceNumber (number) {
         return number.toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
