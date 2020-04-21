@@ -18,7 +18,7 @@ class Destruction extends Command {
 
 
         const villagers = client.random(25, 400);
-        const timeout = Math.floor(client.random(60, villagers / 3 + 60)) * 1000;
+        const timeout = Math.floor(client.random(120, villagers / 2 + 120)) * 1000;
 
         client.othersDB.set('destruction', {
             started: true,

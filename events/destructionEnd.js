@@ -16,7 +16,7 @@ class DestructionEnd extends Listener {
 
         const {villagers: {total, current}} = client.othersDB.get('destruction');
 
-        const ratioTotal = current === 0 ? 100 : total / current * 100;
+        const ratioTotal = 100 - (current === 0 ? 0 : current / total * 100);
 
         const teams = client.othersDB.get('destruction', 'teams');
 
@@ -28,6 +28,7 @@ class DestructionEnd extends Listener {
 
         for (const {id, kills} of teams) {
             const teamRatio = kills / total;
+
             const points = Math.round(teamRatio * pointsTotal);
             const team = client.teams.all.get(id);
 
@@ -35,7 +36,7 @@ class DestructionEnd extends Listener {
             logs.push({team: team, points: points, percentage: (teamRatio * 100).toFixed(1)});
         }
 
-        msg.channel.send(`Fin ! Voici les points rapportés :\n\n\`\`${logs.map(team => `${team.team.name} : ${team.points} points (${team.percentage}%)`).join('``\n```')}\`\``);
+        msg.channel.send(`Fin ! Voici les points rapportés :\n\n\`\`${logs.map(team => `${team.team.name} : ${team.points} points (${team.percentage} %)`).join('``\n```')}\`\``);
 
         // msg.channel.send(`Les chevaliers de l'intégrité sont arrivés ! Villageois tués : ${ratio}%`)
 
