@@ -12,7 +12,7 @@ class NeededTeamError extends Listener {
     exec(msg, command, teams) {
         const client = this.client;
 
-        return msg.channel.send(`Désolé ${msg.author}, mais tu dois ${teams[0] === '[ALL]' ? `être dans une équipe` : `faire partie de l'une des équipes suivantes : \`\`${teams.join('``, ``')}\`\``} `);
+        return msg.channel.send(`Désolé ${msg.author}, mais tu dois ${teams.length === 0 ? `être dans une équipe` : `faire partie de l'une des équipes suivantes : \`\`${teams.join('``, ``')}\`\``} `);
 
 
 

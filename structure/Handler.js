@@ -606,7 +606,9 @@ class Handler extends AkairoHandler {
             return true;
         }
 
-        if (message.guild) this.client.ensureMember(message.member);
+        if (message.guild) {
+            this.client.ensureMember(message.member);
+        }
 
         if (this.runCompetitionCheck(message, command)) {
             return true;
@@ -732,6 +734,7 @@ class Handler extends AkairoHandler {
 
     runTeamCheck (msg, command) {
         const teamsRaw = command.teamsNeeded;
+        if (!teamsRaw) return false;
         const teams = typeof teamsRaw === 'string' ? [teamsRaw] : teamsRaw;
 
         if (!this.client.hasTeams(msg.member, teams)) {
@@ -750,50 +753,30 @@ class Handler extends AkairoHandler {
      * @returns {boolean}
      */
     runCooldowns(message, command) {
-        const ignorer = command.ignoreCooldown || this.ignoreCooldown;
-        // const isIgnored = Array.isArray(ignorer)
-        //     ? ignorer.includes(message.author.id)
-        //     : typeof ignorer === 'function'
-        //         ? ignorer(message, command)
-        //         : message.author.id === ignorer;
 
-        // if (isIgnored) return false;
+        const cooldown = message.cooldown
 
-        const time = command.cooldown != null ? command.cooldown : this.defaultCooldown;
-        if (!time) return false;
+        if (message.system || message.author.bot || !cooldown) return false;
 
-        const endTime = message.createdTimestamp + time;
+        client.ensureMember(message.member);
 
-        const id = message.author.id;
-        if (!this.cooldowns.has(id)) this.cooldowns.set(id, {});
+        const member = client.usersDB.get(message.member.id);
+        const memberCooldown = member.cooldowns.commands[command.id];
 
-        if (!this.cooldowns.get(id)[command.id]) {
-            this.cooldowns.get(id)[command.id] = {
-                timer: this.client.setTimeout(() => {
-                    this.client.clearTimeout(this.cooldowns.get(id)[command.id].timer);
-                    this.cooldowns.get(id)[command.id] = null;
+        const end = memberCooldown + cooldown;
+        const reaming = end - Date.now();
 
-                    if (!Object.keys(this.cooldowns.get(id)).length) {
-                        this.cooldowns.delete(id);
-                    }
-                }, time),
-                end: endTime,
-                uses: 0
-            };
+        if (!memberCooldown) {
+            client.usersDB.set(message.member.id, Date.now() + cooldown, `cooldowns.commands.${command.id}`)
+        } else {
+            if (reaming > 0) {
+                this.emit(CommandHandlerEvents.COOLDOWN, message, command, reaming)
+                return true;
+            }
         }
 
-        const entry = this.cooldowns.get(id)[command.id];
-
-        if (entry.uses >= command.ratelimit) {
-            const end = this.cooldowns.get(message.author.id)[command.id].end;
-            const diff = end - message.createdTimestamp;
-
-            this.emit(CommandHandlerEvents.COOLDOWN, message, command, diff);
-            return true;
-        }
-
-        entry.uses++;
         return false;
+
     }
 
     /**

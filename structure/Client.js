@@ -5,6 +5,7 @@ const Team = require('./Team');
 const teams = require('./teams');
 const Handler = require('./Handler');
 const config = require('../config');
+const prettyms = require('pretty-ms');
 
 class Client extends AkairoClient {
 
@@ -132,7 +133,7 @@ class Client extends AkairoClient {
     hasTeams = (member, teams) =>  {
 
         const memberTeams = this.getMemberTeams(member);
-        if (teams[0] === '[ALL]') return memberTeams.length >= 1;
+        if (teams.length === 0) return memberTeams.length >= 1;
 
         const mutualTeams = [];
 
@@ -191,10 +192,18 @@ class Client extends AkairoClient {
 
     ensureMember = (user) => {
 
-        this.usersDB.ensure(user.id, {
+        return this.usersDB.ensure(user.id, {
             teams: [],
             xp: 0,
-            level: 0
+            level: 0,
+            cooldowns: {
+                commands: {
+
+                },
+                spells: {
+
+                }
+            }
         });
 
     }
@@ -202,6 +211,17 @@ class Client extends AkairoClient {
     ensureOthers = () => {
 
         this.othersDB.ensure('competition', false);
+        this.othersDB.ensure('destruction', {
+            wave: null,
+            villagers: {
+                total: null,
+                current: null
+            },
+            teams: [],
+            timeout: null,
+            end: null,
+            started: false
+        })
 
     }
 
@@ -283,6 +303,43 @@ class Client extends AkairoClient {
         }
 
         return emote;
+    }
+
+    random (max, min) {
+        return Math.floor(Math.random() * (max - min + 1 )) + min;
+    }
+
+    getTime (string, {
+        long = true,
+        compact = false
+    } = {}) {
+        const replaces = [
+            {
+                replace: 'second',
+                with: 'seconde'
+            },
+            {
+                replace: 'hour',
+                with: 'heure'
+            },
+            {
+                replace: 'day',
+                with: 'jour'
+            },
+            {
+                replace: 'year',
+                with: 'an'
+            }
+        ]
+
+        string = prettyms(string, {verbose: long, compact: compact});
+
+        for (const {replace, with: replacator} of replaces) {
+            string = string.replace(replace, replacator);
+        }
+
+        return string;
+
     }
 
 

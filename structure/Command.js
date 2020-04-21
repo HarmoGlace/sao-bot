@@ -19,7 +19,7 @@ class Command extends AkairoCommand {
             ratelimit = 1,
             location = 'guild',
             needCompetition = false,
-            teamsNeeded = [],
+            teamsNeeded,
             argumentDefaults = {},
             description = '',
             prefix = this.prefix,
