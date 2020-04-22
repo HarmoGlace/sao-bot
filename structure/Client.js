@@ -311,7 +311,7 @@ class Client extends AkairoClient {
             if (member.roles.cache.has(roleId)) userLanguage = language.information.id;
         }
 
-        return userLanguage;
+        return userLanguage ? languages[userLanguage] : null;
 
     }
 
