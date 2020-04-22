@@ -5,16 +5,13 @@ class Destruction extends Command {
     constructor() {
         super('destruction', { // id
             aliases: ['destruction'],
+            launch: true
         })
     }
 
     async exec(msg, args) {
 
         const client = this.client;
-
-        const { started } = client.othersDB.get('destruction');
-
-        if (started) return msg.channel.send(`${msg.author}, une partie est déjà en cours !`);
 
         const villagers = client.random(25, 400);
         const timeout = Math.floor(client.random(120, villagers / 2 + 120)) * 1000;
@@ -45,6 +42,12 @@ class Destruction extends Command {
                 title: 'Explication du fonctionnement du jeu'
             }});
 
+    }
+
+    isLaunch (msg) {
+        const client = this.client;
+        const { started } = client.othersDB.get('destruction');
+        return started;
     }
 }
 

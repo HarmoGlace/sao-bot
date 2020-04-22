@@ -18,7 +18,10 @@ class Command extends AkairoCommand {
             cooldown = null,
             ratelimit = 1,
             location = 'guild',
+            launch = false,
             needCompetition = false,
+            subTeamCooldown,
+            parentTeamCooldown,
             teamsNeeded,
             argumentDefaults = {},
             description = '',
@@ -38,6 +41,9 @@ class Command extends AkairoCommand {
         this.location = location;
         this.needCompetition = needCompetition;
         this.teamsNeeded = teamsNeeded;
+        this.subTeamCooldown = subTeamCooldown;
+        this.parentTeamCooldown = parentTeamCooldown;
+        this.launch = launch;
 
     }
 

@@ -238,7 +238,7 @@ class Client extends AkairoClient {
         }
 
         const end = memberCooldown + cooldown;
-        console.log(end);
+
         const reaming = end - Date.now();
 
         return reaming;
@@ -262,6 +262,37 @@ class Client extends AkairoClient {
 
         if (!currentCooldown || currentCooldown <= 0) {
             this.setCooldown({member, type, cooldown, id});
+            return 0;
+        }
+
+        return currentCooldown;
+
+    }
+
+    getGlobalCooldown = ({id, cooldown}) => {
+
+        const globalCooldown = this.othersDB.ensure(id, 0);
+
+        const end = globalCooldown + cooldown;
+
+        const reaming = end - Date.now();
+
+        return reaming;
+
+    }
+
+    setGlobalCooldown = ({id, cooldown}) => {
+
+        this.othersDB.set(id, Date.now());
+        return true;
+    }
+
+    isGlobalCooldown = ({id, cooldown}) => {
+
+        const currentCooldown = this.getCooldown({id, cooldown});
+
+        if (!currentCooldown || currentCooldown <= 0) {
+            this.setCooldown({cooldown, id});
             return 0;
         }
 

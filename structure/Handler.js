@@ -631,7 +631,9 @@ class Handler extends AkairoHandler {
             return true;
         }
 
-
+        if (this.runCheckLaunched(message, command)) {
+            return true;
+        }
 
         if (this.runCooldowns(message, command)) {
             return true;
@@ -754,17 +756,63 @@ class Handler extends AkairoHandler {
      */
     runCooldowns(message, command) {
 
-        if (message.system || message.author.bot || !message.cooldown) return false;
+        if (message.system || message.author.bot) return false;
 
-        const reaming = client.isCooldown({member: message.member, type: 'command', cooldown: command.cooldown, id: command.id});
+        if (command.cooldown) {
+            const reaming = client.isCooldown({member: message.member, type: 'command', cooldown: command.cooldown, id: command.id});
 
             if (reaming > 0) {
-                this.emit(CommandHandlerEvents.COOLDOWN, message, command, reaming)
+                this.emit(CommandHandlerEvents.COOLDOWN, message, command, reaming, 'user')
                 return true;
+            }
+        }
+
+
+
+
+
+            if (command.subTeamCooldown) {
+
+                const team = client.getMemberTeam(message.member);
+
+                const reaming = client.isGlobalCooldown({id: team.id, cooldown: command.subTeamCooldown});
+
+                if (reaming > 0) {
+                    this.emit(CommandHandlerEvents.COOLDOWN, message, command, reaming, 'subTeam', team)
+                    return true;
+                }
+
+
+
+            }
+
+            if (command.parentTeamCooldown) {
+
+                const { parent } = client.getMemberTeam(message.member);
+
+                const reaming = client.isGlobalCooldown({id: parent.id, cooldown: command.parentTeamCooldown});
+
+                if (reaming > 0) {
+                    this.emit(CommandHandlerEvents.COOLDOWN, message, command, reaming, 'parentTeam', parent)
+                    return true;
+                }
+
             }
 
         return false;
 
+    }
+
+    runCheckLaunched (message, command) {
+
+        if (!command.launch) return false;
+
+        if (command.isLaunch(message)) {
+            this.emit('alreadyLaunchedError', message, command);
+            return true;
+        }
+
+        return false;
     }
 
     /**
