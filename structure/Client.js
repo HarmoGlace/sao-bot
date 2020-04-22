@@ -5,6 +5,7 @@ const Team = require('./Team');
 const teams = require('./teams');
 const Handler = require('./Handler');
 const config = require('../config');
+const languages = require('../languages/index');
 const prettyms = require('pretty-ms');
 
 class Client extends AkairoClient {
@@ -68,6 +69,8 @@ class Client extends AkairoClient {
         this.Team = Team;
 
         this.config = config;
+
+        this.languages = languages;
 
         this.commandHandler = new Handler(this, {
             directory: './commands/',
@@ -299,6 +302,19 @@ class Client extends AkairoClient {
 
     }
 
+    getMemberLanguage = (member) => {
+
+        let userLanguage = null;
+
+        for (const [name, language] of Object.entries(languages)) {
+            const roleId = config.roles[language.information.id];
+            if (member.roles.cache.has(roleId)) userLanguage = language.information.id;
+        }
+
+        return userLanguage;
+
+    }
+
     replaceChannel (channels) {
         for (const [name, id] of Object.entries(config.channels)) {
             channels.forEach((channel, i) => {
@@ -394,26 +410,10 @@ class Client extends AkairoClient {
 
     getTime (string, {
         long = true,
-        compact = false
+        compact = false,
+        language = languages.french
     } = {}) {
-        const replaces = [
-            {
-                replace: 'second',
-                with: 'seconde'
-            },
-            {
-                replace: 'hour',
-                with: 'heure'
-            },
-            {
-                replace: 'day',
-                with: 'jour'
-            },
-            {
-                replace: 'year',
-                with: 'an'
-            }
-        ]
+        const replaces = language.time;
 
         string = prettyms(string, {verbose: long, compact: compact});
 
