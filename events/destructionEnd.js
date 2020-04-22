@@ -22,7 +22,8 @@ class DestructionEnd extends Listener {
 
         teams.sort((a, b) => b.kills - a.kills);
 
-        const pointsTotal = Math.round((ratioTotal / 4) * (total / 4));
+        let pointsTotal = Math.round((ratioTotal / 6) * (total / 5));
+        if (ratioTotal === 100) pointsTotal *= 1,5
 
         const logs = [];
 

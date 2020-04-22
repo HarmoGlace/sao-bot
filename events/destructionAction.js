@@ -82,7 +82,7 @@ class DestructionAction extends Listener {
             return msg.channel.send(`${msg.author}, tu utilises le sort **Deep Freeze**. Pendant 2 minutes tu tueras plus d'humains`);
         }
 
-        if (boost) kills *= (client.random(20, 40) / 10);
+        if (boost && action !== 'enhance armement') kills *= (client.random(20, 40) / 10);
 
         kills = Math.round(kills);
 
