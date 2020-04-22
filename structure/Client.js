@@ -258,7 +258,6 @@ class Client extends AkairoClient {
         this.ensureMember(member);
 
         const currentCooldown = this.getCooldown({member, type, cooldown, id});
-        console.log(currentCooldown);
 
         if (!currentCooldown || currentCooldown <= 0) {
             this.setCooldown({member, type, cooldown, id});
