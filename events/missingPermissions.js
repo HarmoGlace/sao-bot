@@ -11,8 +11,9 @@ class MissingPermissions extends Listener {
 
     exec(msg, command, type, missing) {
         const client = this.client;
+        const language = client.ensureMemberLanguage(msg.member);
 
-        return msg.channel.send(`Désolé ${msg.author}, mais tu n'as pas la permission de faire cette commande`)
+        return msg.channel.send(language.errors.missingPermission(msg.author));
 
     }
 }

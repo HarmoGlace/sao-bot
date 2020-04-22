@@ -11,8 +11,9 @@ class CompetitionDisabled extends Listener {
 
     exec(msg, command) {
         const client = this.client;
+        const language = client.ensureMemberLanguage(msg.member);
 
-        return msg.channel.send(`Désolé ${msg.author}, mais c'est désactivé !`);
+        return msg.channel.send(language.errors.competitionDisabled(msg.author));
 
     }
 }

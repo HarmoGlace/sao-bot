@@ -14,6 +14,7 @@ class Destruction extends Command {
     async exec(msg, args) {
 
         const client = this.client;
+        const language = client.ensureMemberLanguage(msg.member);
 
         const villagers = client.random(1000, 5000);
         const timeout = Math.floor(client.random(villagers / 7 + 200, villagers / 9 + 200)) * 1000;

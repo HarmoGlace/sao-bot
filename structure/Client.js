@@ -315,6 +315,11 @@ class Client extends AkairoClient {
 
     }
 
+    ensureMemberLanguage = (member) => {
+        const memberLanguage = this.getMemberLanguage(member);
+        return memberLanguage ? memberLanguage : languages['french']; // default language
+    }
+
     replaceChannel (channels) {
         for (const [name, id] of Object.entries(config.channels)) {
             channels.forEach((channel, i) => {

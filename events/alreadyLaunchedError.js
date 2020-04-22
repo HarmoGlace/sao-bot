@@ -12,7 +12,9 @@ class AlreadyLaunchedError extends Listener {
     exec(msg, command) {
         const client = this.client;
 
-        return msg.channel.send(`${msg.author}, une partie est déjà en cours !`)
+        const language = client.ensureMemberLanguage(msg.member);
+
+        return msg.channel.send(language.errors.already_launched(msg.author));
     }
 }
 
