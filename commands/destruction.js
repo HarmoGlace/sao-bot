@@ -5,7 +5,9 @@ class Destruction extends Command {
     constructor() {
         super('destruction', { // id
             aliases: ['destruction'],
-            launch: true
+            launch: true,
+            parentTeamCooldown: 600000,
+            channel: 'destruction'
         })
     }
 

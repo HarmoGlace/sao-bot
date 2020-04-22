@@ -610,6 +610,10 @@ class Handler extends AkairoHandler {
             this.client.ensureMember(message.member);
         }
 
+        if (this.runChannelCheck(message, command)) {
+            return true;
+        }
+
         if (this.runCompetitionCheck(message, command)) {
             return true;
         }
@@ -767,7 +771,7 @@ class Handler extends AkairoHandler {
             }
         }
 
-
+        const client = this.client;
 
 
 
@@ -809,6 +813,23 @@ class Handler extends AkairoHandler {
 
         if (command.isLaunch(message)) {
             this.emit('alreadyLaunchedError', message, command);
+            return true;
+        }
+
+        return false;
+    }
+
+    runChannelCheck (message, command) {
+
+        if (!command.channel) return;
+
+        const client = this.client;
+
+        const raw = typeof command.channel === 'string' ? [command.channel] : command.channel;
+        const channels = client.replaceChannel(raw);
+
+        if (!channels.includes(message.channel.id)) {
+            this.emit('channelError', message, command, channels);
             return true;
         }
 

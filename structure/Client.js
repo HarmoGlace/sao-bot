@@ -288,15 +288,24 @@ class Client extends AkairoClient {
 
     isGlobalCooldown = ({id, cooldown}) => {
 
-        const currentCooldown = this.getCooldown({id, cooldown});
+        const currentCooldown = this.getGlobalCooldown({id, cooldown});
 
         if (!currentCooldown || currentCooldown <= 0) {
-            this.setCooldown({cooldown, id});
+            this.setGlobalCooldown({cooldown, id});
             return 0;
         }
 
         return currentCooldown;
 
+    }
+
+    replaceChannel (channels) {
+        for (const [name, id] of Object.entries(config.channels)) {
+            channels.forEach((channel, i) => {
+                if (name === channel) channels[i] = id;
+            })
+        }
+        return channels;
     }
 
     spaceNumber (number) {
