@@ -11,6 +11,8 @@ class DestructionEnd extends Listener {
 
     exec(msg, reason) {
         const client = this.client;
+        const language = client.ensureMemberLanguage(msg.member);
+        const command = language.commands.destruction;
 
         client.othersDB.set('destruction', false, 'started');
 
@@ -38,9 +40,9 @@ class DestructionEnd extends Listener {
         }
 
         if (logs.length === 0) {
-            msg.channel.send(`Fin ! Personne n'a gagné de point :'(`)
+            msg.channel.send(command.end.no_point());
         } else {
-            msg.channel.send(`Fin ! Voici les points rapportés :\n\n\`\`${logs.map(team => `${team.team.name} : ${team.points} points (${team.percentage} %)`).join('``\n```')}\`\``);
+            msg.channel.send(command.end.points(`\n\n\`\`${logs.map(team => `${team.team.name} : ${team.points} points (${team.percentage} %)`).join('``\n```')}\`\``));
         }
 
 

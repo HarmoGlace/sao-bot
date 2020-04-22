@@ -11,13 +11,13 @@ class ChannelError extends Listener {
 
     exec(msg, command, channels) {
         const client = this.client;
+        const language = client.ensureMemberLanguage(msg.member);
 
         if (channels.length === 1) {
-            return msg.channel.send(`${msg.author}, tu dois faire cette commande dans <#${channels[0]}>`)
+            return msg.channel.send(language.errors.wrong_channel(msg.author, `<#${channels[0]}>`))
         }
 
-        return msg.channel.send(`${msg.author}, tu dois faire cette commande dans l'un des channels suivant : <#${channels.join('>, <#')}>`)
-
+        return msg.channel.send(language.errors.wrong_channels(msg.author, `<#${channels.join('>, <#')}>`))
 
     }
 }

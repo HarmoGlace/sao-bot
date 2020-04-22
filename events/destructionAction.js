@@ -11,6 +11,8 @@ class DestructionAction extends Listener {
 
     exec(msg) {
         const client = this.client;
+        const language = client.ensureMemberLanguage(msg.member);
+        const command = language.commands.destruction;
 
         client.ensureMember(msg.member)
 
@@ -55,7 +57,7 @@ class DestructionAction extends Listener {
             const reaming = client.isCooldown({member: msg.member, type: 'spell', cooldown: match.cooldown, id: match.id});
 
                 if (reaming > 0) {
-                    return msg.channel.send(`${msg.author}, tu dois encore attendre ${client.getTime(reaming)} avant de pouvoir utiliser ceci !`)
+                    return msg.channel.send(language.errors.user_cooldown(msg.author, client.getTime(reaming)));
                 }
 
         }
@@ -79,7 +81,7 @@ class DestructionAction extends Listener {
 
         if (action === 'deep freeze') {
             client.usersDB.set(msg.author.id, Date.now() + 120000, `cooldowns.spells.global_boost`);
-            return msg.channel.send(`${msg.author}, tu utilises le sort **Deep Freeze**. Pendant 2 minutes tu tueras plus d'humains`);
+            return msg.channel.send(command.action.deep_freeze(msg.author));
         }
 
         if (boost && action !== 'enhance armement') kills *= (client.random(20, 40) / 10);
@@ -112,9 +114,9 @@ class DestructionAction extends Listener {
         client.othersDB.set('destruction', current, 'villagers.current');
 
         if (action === 'attack') {
-            msg.channel.send(`${msg.author}, tu as tué ${kills} villageois. Il en reste ${current} !`)
+            msg.channel.send(command.action.attack(msg.author, kills, current))
         } else  {
-            msg.channel.send(`${msg.author}, tu as utilisé le sort **${match.name}** et tué ${kills} villageois. Il en reste ${current}`)
+            msg.channel.send(command.action.spell(msg.author, match.name, kills, current))
         }
 
         if (current <= 0) {

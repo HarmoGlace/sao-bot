@@ -15,6 +15,7 @@ class Destruction extends Command {
 
         const client = this.client;
         const language = client.ensureMemberLanguage(msg.member);
+        const command = language.commands.destruction;
 
         const villagers = client.random(1000, 5000);
         const timeout = Math.floor(client.random(villagers / 7 + 200, villagers / 9 + 200)) * 1000;
@@ -41,7 +42,8 @@ class Destruction extends Command {
 
         }, timeout)
 
-        return msg.channel.send(`${msg.author}, attaque commencée. Tu as trouvé un village avec ${villagers} villageois ! Les chevaliers de l'intégrité arriveront dans ${client.getTime(timeout)} !`, {embed : {
+
+        return msg.channel.send(command.start.content(msg.author, villagers, client.getTime(timeout)), {embed : {
                 title: 'Explication du fonctionnement du jeu'
             }});
 
