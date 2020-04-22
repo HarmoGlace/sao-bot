@@ -36,8 +36,8 @@ class DestructionAction extends Listener {
                 cooldown: 600000 // 10m
             },
             {
-                name: 'generate aerial element',
-                id: 'aerial_element',
+                name: 'release recollection',
+                id: 'release_recollection',
                 aliases: [],
                 cooldown: 300000 // 5m
             }
