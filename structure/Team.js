@@ -1,5 +1,3 @@
-const Enmap = require('enmap');
-
 class Team {
 
     constructor(client, {
