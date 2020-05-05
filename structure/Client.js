@@ -30,7 +30,7 @@ class Client extends AkairoClient {
                 return this.teams.all.filter(team => team.type === 'parent');
             },
             subs: () => {
-                return this.teams.all.filter(teams => teams.type == 'sub');
+                return this.teams.all.filter(teams => teams.type === 'sub');
             },
             get: (id) => {
                 return this.teams.all.get(id);
