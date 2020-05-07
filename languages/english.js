@@ -22,7 +22,7 @@ const english = {
         competitionDisabled: user => `Sorry ${user}, but it's disabled!`,
         missingPermission: user => `Sorry ${user}, but you don't have permission to use this command`,
         need_one_team: user => `Sorry ${user}, but you have to be on a team !`,
-        need_teams: (user, teams) => `Sorry ${msg.author}, but you must be part of one of the following teams: ${teams}`,
+        need_teams: (user, teams) => `Sorry ${user}, but you must be part of one of the following teams: ${teams}`,
         wrong_channel: (user, channel) => `${user}, you have to do this in ${channel}`,
         wrong_channels: (user, channels) => `${user}, you have to do this in one of the following channels: ${channels}`
     },
