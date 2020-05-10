@@ -243,6 +243,7 @@ class Client extends AkairoClient {
             end: null,
             started: false
         });
+        this.othersDB.ensure('boost', 1);
 
     }
 
@@ -310,6 +311,92 @@ class Client extends AkairoClient {
         return reaming;
 
     }
+
+    getLeaderboard = ({ db = this.usersDB, max = 10, data = "level", secondData = false, dataName = data, dataPosition = "after", role = false, member: guildMember = false, guild = this.server } = {}) => {
+
+        let all = Array.from(db.fetchEverything());
+        let arr1 = [];
+        let member;
+
+        all.forEach((f) => {
+            if (f[1][data]) {
+                member = guild.members.cache.get(f[0]);
+                if (role) {
+                    if (member && member.roles.cache.has(role)) {
+                        arr1.push(f)
+                    }
+                } else {
+                    arr1.push(f)
+                }
+
+            }
+        });
+        arr1.sort((a, b) => {
+            if (secondData) {
+                let diff = b[1][data] - a[1][data];
+                if (!diff) {
+                    diff = b[1][secondData] - a[1][secondData]
+                }
+                return diff
+            } else {
+                return b[1][data] - a[1][data]
+            }
+
+        });
+
+
+        all = arr1;
+
+        let content = "";
+
+        let userd;
+
+        for (let i = 0; i < all.length && i < max; i++) {
+            let user = guild.members.cache.get(all[i][0]);
+            if (!user) {
+                all.splice(i, 1);
+                i += -1
+            } else {
+                userd = user.displayName || "fdp";
+                let emote = this.getPositionEmote(i + 1);
+                if (guildMember && guildMember.id === user.id) {
+                    content += `**${emote} ${userd} : ${dataPosition === "before" ? `${dataName} ` : ''}${all[i][1][data].toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}${dataPosition == "after" ? ` ${dataName}` : ''}**\n`
+                } else {
+                    content += `${emote} ${userd} : ${dataPosition === "before" ? `${dataName} ` : ''}${all[i][1][data].toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}${dataPosition == "after" ? ` ${dataName}` : ''}\n`
+                }
+
+            }
+
+        }
+
+        const position = guildMember && role && guildMember.roles.cache.has(role) || guildMember && !role ? all.findIndex(i => i[0] == guildMember.id) : false;
+
+        const contentPosition = position ? this.getPosition(position - 1) : false;
+
+        return {
+            content: content || "Il n'y a personne ❔",
+            position: {
+                number: position,
+                content: contentPosition
+            }
+        }
+    };
+
+    getPosition = (position, emotes = false) => {
+        let pos;
+        const emote = this.getPositionEmote(position + 1);
+        if (position === -1) {
+            pos = "Tu n'es pas dans le classement !"
+        } else {
+            if (position === 0) {
+                pos = `${emotes ? `${emote}` : ''}1er`
+            } else {
+                pos = `${emotes ? `${emote}` : ''}${position + 1}ème`
+            }
+        }
+        return pos
+
+    };
 
     setGlobalCooldown = ({id, cooldown}) => {
 
