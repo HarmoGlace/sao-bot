@@ -20,15 +20,7 @@ class MessageInvalid extends Listener {
 
         if (client.config.ignoredXpChannels.includes(message.channel.id)) return;
 
-        const leaderboard = client.getLeaderboard({
-            max: 3,
-            member: message.member,
-            secondData: 'xp',
-            dataPosition: 'before',
-            dataName: 'niveau'
-        });
 
-        console.log(leaderboard)
 
         const newXp = client.config.limitedXpChannels.includes(message.channel.id) ? 1 : client.random(1, 5);
 

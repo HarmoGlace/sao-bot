@@ -244,6 +244,7 @@ class Client extends AkairoClient {
             started: false
         });
         this.othersDB.ensure('boost', 1);
+        this.othersDB.ensure('firsts', []);
 
     }
 
@@ -312,7 +313,7 @@ class Client extends AkairoClient {
 
     }
 
-    getLeaderboard = ({ db = this.usersDB, max = 10, data = "level", secondData = false, dataName = data, dataPosition = "after", role = false, member: guildMember = false, guild = this.server } = {}) => {
+    getLeaderboard = ({ db = this.usersDB, max = 10, data = "level", secondData = false, dataName = data, dataPosition = "after", role = false, member: guildMember = false, guild = this.server, raw = false} = {}) => {
 
         let all = Array.from(db.fetchEverything());
         let arr1 = [];
@@ -371,14 +372,16 @@ class Client extends AkairoClient {
 
         const position = guildMember && role && guildMember.roles.cache.has(role) || guildMember && !role ? all.findIndex(i => i[0] == guildMember.id) : false;
 
-        const contentPosition = position ? this.getPosition(position - 1) : false;
+        const contentPosition = position || position === 0 ? this.getPosition(position) : false;
 
         return {
             content: content || "Il n'y a personne ❔",
             position: {
                 number: position,
-                content: contentPosition
-            }
+                content: contentPosition,
+                emote: position || position === 0 ? this.getPositionEmote(position + 1) : false
+            },
+            raw: raw ? all : false
         }
     };
 
@@ -397,6 +400,38 @@ class Client extends AkairoClient {
         return pos
 
     };
+
+    updateLeaderboardRoles = async () => {
+        const currents = this.othersDB.get('firsts');
+
+        const leaderboard = this.getLeaderboard({
+            max: 3,
+            secondData: 'xp',
+            dataPosition: 'before',
+            dataName: 'niveau',
+            raw: true
+        });
+
+        const { raw } = leaderboard;
+
+        console.log(leaderboard)
+
+        for (let i = 0; i < raw.length; i++) {
+            if (currents[i] !== raw[i][0]) {
+                const role = this.config.levelRoles[i];
+
+                console.log(raw[i]);
+
+                const memberBefore = await this.server.members.fetch(currents[i]);
+                const memberAfter = await this.server.members.fetch(raw[i][0]);
+
+                if (currents[i] && memberBefore && memberBefore.roles.cache.has(role)) memberBefore.roles.remove(role);
+                if (memberAfter && !memberAfter.roles.cache.has(role)) memberAfter.roles.add(role);
+            }
+        }
+
+
+    }
 
     setGlobalCooldown = ({id, cooldown}) => {
 
