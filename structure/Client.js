@@ -316,8 +316,9 @@ class Client extends AkairoClient {
     }
 
     ensureMemberLanguage = (member) => {
-        const memberLanguage = this.getMemberLanguage(member);
-        return memberLanguage ? memberLanguage : languages['french']; // default language
+        return languages['french']; // Temp. Currently others languages are not supported
+        // const memberLanguage = this.getMemberLanguage(member);
+        // return memberLanguage ? memberLanguage : languages['french']; // default language
     }
 
     replaceChannel (channels) {
