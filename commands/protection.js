@@ -15,7 +15,7 @@ class Protection extends Command {
 
         const client = this.client;
         const language = client.ensureMemberLanguage(msg.member);
-        const command = language.commands.destruction;
+        const command = language.commands.protection;
 
         const villagers = client.random(1000, 5000);
         const timeout = Math.floor(client.random(villagers / 7 + 200, villagers / 9 + 200)) * 1000;
@@ -44,7 +44,9 @@ class Protection extends Command {
 
 
         return msg.channel.send(command.start.content(msg.author, villagers, client.getTime(timeout)), {embed : {
-                title: 'Explication du fonctionnement du jeu'
+                title: command.start.title,
+                color: 0x294ac2,
+                description: command.start.explenation
             }});
 
     }

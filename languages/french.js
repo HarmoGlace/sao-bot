@@ -2,7 +2,9 @@ const french = {
     commands: {
         destruction: {
             start: {
-                content: (user, villagers, time) => `${user}, attaque commencée. Tu as trouvé un village avec ${villagers} villageois ! Les chevaliers de l'intégrité arriveront dans ${time} !`
+                content: (user, villagers, time) => `${user}, attaque commencée. Tu as trouvé un village de ${villagers} villageois ! Les chevaliers de l'intégrité arriveront dans ${time} !`,
+                title: 'Explication du fonctionnement du jeu',
+                explenation: 'Vous et votre équipe devez protéger les villageois de ce village. Vous pouvez utiliser ``attack`` pour en tuer quelques uns ou les sorts (liste disponible dans les messages épinglés). Lorsque la limite de temps sera dépassée la partie sera terminée ; vous devez tuer les villageois avant que les chevaliers de l\'intégrité n\'arrivent. Bonne chance, que le bon coté gagne !'
             },
             action: {
                 spell: (user, spellName, kills, villagers) => `${user}, tu as utilisé le sort **${spellName}** et tué ${kills} villageois. Il en reste ${villagers}`,
@@ -17,7 +19,9 @@ const french = {
         },
         protection: {
             start: {
-                content: (user, villagers, time) => `${user}, protection commencée. Tu dois protéger un village avec ${villagers} villageois ! Les ennemis du Dark Territory arriveront dans ${time} !`
+                content: (user, villagers, time) => `${user}, protection commencée. Tu dois protéger un village de ${villagers} villageois ! Les ennemis du Dark Territory arriveront dans ${time} !`,
+                title: 'Explication du fonctionnement du jeu',
+                explenation: 'Vous et votre équipe devez protéger les villageois de ce village. Vous pouvez utiliser ``protect`` pour en protéger quelques uns ou les sorts (liste disponible dans les messages épinglés). Lorsque la limite de temps sera dépassée la partie sera terminée ; vous devez protéger les villageois avant que les ennemis du Dark Territory n\'arrivent. Bonne chance, que le bon coté gagne !'
             },
             action: {
                 spell: (user, spellName, kills, villagers) => `${user}, tu as utilisé le sort **${spellName}** et protégé ${kills} villageois. Il en reste ${villagers} à protéger`,

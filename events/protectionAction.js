@@ -113,8 +113,8 @@ class ProtectionAction extends Listener {
 
         client.othersDB.set('protection', current, 'villagers.current');
 
-        if (action === 'attack') {
-            msg.channel.send(command.action.attack(msg.author, kills, current))
+        if (action === 'protect') {
+            msg.channel.send(command.action.protect(msg.author, kills, current))
         } else  {
             msg.channel.send(command.action.spell(msg.author, match.name, kills, current))
         }

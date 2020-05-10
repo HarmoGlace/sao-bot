@@ -12,8 +12,10 @@ class MessageInvalid extends Listener {
     exec(message) {
         const client = this.client;
 
-        if (message.channel.id === this.client.config.channels.destruction && message.content) {
-            client.emit('destructionAction', message)
+        if (message.channel.id === client.config.channels.destruction && message.content) {
+            client.emit('destructionAction', message);
+        } else if (message.channel.id === client.config.channels.protection && message.content) {
+            client.emit('protectionAction', message);
         }
     }
 }

@@ -224,7 +224,18 @@ class Client extends AkairoClient {
             timeout: null,
             end: null,
             started: false
-        })
+        });
+        this.othersDB.ensure('protection', {
+            wave: null,
+            villagers: {
+                total: null,
+                current: null
+            },
+            teams: [],
+            timeout: null,
+            end: null,
+            started: false
+        });
 
     }
 
