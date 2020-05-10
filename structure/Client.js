@@ -420,7 +420,7 @@ class Client extends AkairoClient {
             if (currents[i] !== raw[i][0]) {
                 const role = this.config.levelRoles[i];
 
-                console.log(raw[i]);
+                console.log(raw[i][0], currents[i]);
 
                 const memberBefore = await this.server.members.fetch(currents[i]);
                 const memberAfter = await this.server.members.fetch(raw[i][0]);
@@ -429,6 +429,8 @@ class Client extends AkairoClient {
                 if (memberAfter && !memberAfter.roles.cache.has(role)) memberAfter.roles.add(role);
             }
         }
+
+        this.othersDB.set('firsts', raw.map(r => r[0]));
 
 
     }

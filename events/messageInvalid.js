@@ -20,13 +20,11 @@ class MessageInvalid extends Listener {
 
         if (client.config.ignoredXpChannels.includes(message.channel.id)) return;
 
-
-
         const newXp = client.config.limitedXpChannels.includes(message.channel.id) ? 1 : client.random(1, 5);
 
         const { xp, level } = client.ensureMember(message.member);
 
-        client.usersDB.math(message.author.id, '+', xp, 'xp');
+        client.usersDB.math(message.author.id, '+', newXp, 'xp');
 
         while (client.usersDB.get(message.author.id, 'xp') >= client.usersDB.get(message.author.id, 'level') * 25) {
 
@@ -36,7 +34,7 @@ class MessageInvalid extends Listener {
 
             client.usersDB.math(message.author.id, "+", 1, "level");
 
-            const niveau = client.usersDB.get(member.user.id, "level");
+            const niveau = client.usersDB.get(msg.author.id, "level");
             const points = niveau * 35 * client.othersDB.get("boost");
 
             client.usersDB.math(message.author.id, "+", points, "points");
