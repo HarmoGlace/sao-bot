@@ -44,10 +44,11 @@ class Client extends AkairoClient {
                 },
         };
 
-        for (const {id, name, aliases = [], role, subTeams} of teams) {
+        for (const {id, name, names = {}, aliases = [], role, subTeams} of teams) {
             const parent = this.teams.all.set(id, new Team(this, {
                 id: id,
                 name: name,
+                names: names,
                 aliases: aliases,
                 roleId: role,
                 type: 'parent',
@@ -58,6 +59,7 @@ class Client extends AkairoClient {
                 this.teams.all.set(subTeam.id,  new Team(this,  {
                     id: subTeam.id,
                     name: subTeam.name,
+                    names: subTeam.names || {},
                     aliases: subTeam.aliases || [],
                     roleId: subTeam.role,
                     type: 'sub',
@@ -193,7 +195,9 @@ class Client extends AkairoClient {
 
     }
 
-    ensureMember = (user) => {
+    ensureMember = (member) => {
+
+        const team = this.getMemberTeam(member);
 
         return this.usersDB.ensure(user.id, {
             teams: [],
@@ -206,7 +210,8 @@ class Client extends AkairoClient {
                 spells: {
 
                 }
-            }
+            },
+            current: team ? team.id : false
         });
 
     }

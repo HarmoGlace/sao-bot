@@ -2,13 +2,14 @@ class Team {
 
     constructor(client, {
         name,
+        names = {},
         roleId,
         id,
         aliases,
         type = 'parent',
         parentId = null,
         subsId = null,
-        color
+        color = 0x000000
     } = {}) {
         this.client = client;
 
@@ -24,6 +25,7 @@ class Team {
         this.id = id;
         this.aliases = aliases;
         this.type = type;
+        this.names = names;
 
         this.parentId = parentId;
         this.subsId = subsId;
