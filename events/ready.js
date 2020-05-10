@@ -12,11 +12,13 @@ class Ready extends Listener {
     async exec() {
         const client = this.client;
 
-        console.log(`Started on ${client.user.tag} on ${client.guilds.cache.size} guilds`);
+
 
         for (const { initialize } of client.teams.all.array()) {
             initialize();
         }
+
+        console.log(`Started on ${client.user.tag} on ${client.guilds.cache.size} guilds`);
 
         await client.updatePoints();
 

@@ -112,6 +112,8 @@ class ProtectionAction extends Listener {
         }
 
         client.othersDB.set('protection', current, 'villagers.current');
+        client.othersDB.ensure('protection', {players: {[msg.author.id]: 0}})
+        client.othersDB.math('protection', '+', kills,  `players.${msg.author.id}`);
 
         if (action === 'protect') {
             msg.channel.send(command.action.protect(msg.author, kills, current))

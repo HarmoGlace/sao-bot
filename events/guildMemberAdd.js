@@ -16,18 +16,31 @@ class GuildMemberAdd extends Listener {
 
         parents.sort((a, b) => b.role.members.size - a.role.members.size);
 
-        const parent = parents[0];
+        let parent = parents.first();
 
-        parents.subs.sort((a, b) => b.role.members.size - a.role.members.size);
+        parent.subs.sort((a, b) => b.role.members.size - a.role.members.size);
 
-        const sub = parents.subs[0];
+        let sub = parent.subs.first();
+
+        const current = client.ensureMember(member);
+
+        if (current.current) sub = client.teams.subs.get(current.current);
+        parent = sub.parent;
+
+        if (!parent || !sub) return;
 
         await member.roles.add(sub.role);
         await member.roles.add(parent.role);
 
+
+
+
+        client.usersDB.set(member.id, sub.id, 'currentTeam')
+
         member.send(`Bienvenue sur L'Aincrad !`, {embed : {
                 title: 'Nous sommes heureux de vous compter parmis nous !',
-                description: `Nous avons une compétition nommée War Of Underworld où deux équipes principalent se battent pour la victoire :\n\n**Le Dark Territory** ⚔️**Les chevaliers de l'intégrité**\n\nVous faites partie ${sub.names.des} (${parent.names.le})\nPour plus d'informations, regardez <#${client.config.channels.explications}>`
+                description: `Nous avons une compétition nommée War Of Underworld où deux équipes principalent se battent pour la victoire :\n\n**Le Dark Territory** ⚔️ **L'Empire Humain**\n\nVous faites partie ${sub.names.des} (${parent.names.le})\nPour plus d'informations, regardez <#${client.config.channels.explications}>\n\nN'oubliez pas non plus d'aller prendre vos rôles dans <#${client.config.channels.roles}>`,
+                color: sub.color
             }})
 
     }

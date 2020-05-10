@@ -199,7 +199,7 @@ class Client extends AkairoClient {
 
         const team = this.getMemberTeam(member);
 
-        return this.usersDB.ensure(user.id, {
+        return this.usersDB.ensure(member.id, {
             teams: [],
             xp: 0,
             level: 0,
@@ -211,7 +211,11 @@ class Client extends AkairoClient {
 
                 }
             },
-            current: team ? team.id : false
+            current: team ? team.id : false,
+            points: 0,
+            totalPoints: 0,
+            kills: 0,
+            currentKills: 0
         });
 
     }

@@ -112,12 +112,15 @@ class DestructionAction extends Listener {
         }
 
         client.othersDB.set('destruction', current, 'villagers.current');
+        client.othersDB.math('destruction', '+', kills,  `players.${msg.author.id}`);
 
         if (action === 'attack') {
             msg.channel.send(command.action.attack(msg.author, kills, current))
         } else  {
             msg.channel.send(command.action.spell(msg.author, match.name, kills, current))
         }
+
+
 
         if (current <= 0) {
             client.emit('destructionEnd', msg, 'win');

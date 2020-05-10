@@ -16,7 +16,7 @@ class ProtectionEnd extends Listener {
 
         client.othersDB.set('protection', false, 'started');
 
-        const {villagers: {total, current}} = client.othersDB.get('protection');
+        const {villagers: {total, current}, players} = client.othersDB.get('protection');
 
         const ratioTotal = 100 - (current === 0 ? 0 : current / total * 100);
 
@@ -46,7 +46,10 @@ class ProtectionEnd extends Listener {
                 msg.channel.send(command.end.points(`\n\n\`\`${pointsFormated ? pointsFormated : command.end.no_point()}\`\``));
             }
 
-
+        for (const [id, kills] of Object.entries(players)) {
+            const points = kills / total * pointsTotal;
+            client.usersDB.math(id, '+', points, 'kills')
+        }
 
 
 
