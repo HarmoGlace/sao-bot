@@ -46,7 +46,7 @@ class Destruction extends Command {
         return msg.channel.send(command.start.content(msg.author, villagers, client.getTime(timeout)), {embed : {
                 title: command.start.title,
                 color: 0xc23329,
-                description: command.start.description
+                description: command.start.explenation
             }});
 
     }

@@ -9,7 +9,7 @@ class Ready extends Listener {
         });
     }
 
-    exec() {
+    async exec() {
         const client = this.client;
 
         console.log(`Started on ${client.user.tag} on ${client.guilds.cache.size} guilds`);
@@ -18,6 +18,7 @@ class Ready extends Listener {
             initialize();
         }
 
+        await client.updatePoints();
 
     }
 }

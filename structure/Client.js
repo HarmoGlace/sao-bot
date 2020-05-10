@@ -239,6 +239,16 @@ class Client extends AkairoClient {
 
     }
 
+    ensurePoints = () => {
+        for (const parent of this.teams.parents()) {
+            this.parentTeamsDB.ensure(parent.id, {points: 0});
+        }
+
+        for (const sub of this.teams.subs()) {
+            this.subsTeamsDB.ensure(sub.id, {points: 0})
+        }
+    }
+
     getCooldown = ({member, type = 'command', id, cooldown}) => {
         type = `${type}s`
         this.ensureMember(member);
