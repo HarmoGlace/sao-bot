@@ -13,7 +13,7 @@ const french = {
             },
             end: {
                 no_point: () => `Personne n'a gagné de points :(`,
-                points: (points) => `Fin ! Voici les points rapportés:${points}`,
+                points: (points) => `Bravo, vous avez gagné ! Voici les points rapportés:${points}`,
                 timeout: (points) => `Les chevaliers de l'intégrité sont arrivés, vous avez perdu ! Voici les points rapportés:${points}`
             }
         },
@@ -30,7 +30,7 @@ const french = {
             },
             end: {
                 no_point: () => `Personne n'a gagné de points :(`,
-                points: (points) => `Fin ! Voici les points rapportés :${points}`,
+                points: (points) => `Bravo, vous avez gagné ! Voici les points rapportés :${points}`,
                 timeout: (points) => `Les ennemis du Dark Territory sont arrivés et vous n'avez pas eu le temps de sauver tous les villageois ! Voici les points rapportés :${points}`
             }
         }

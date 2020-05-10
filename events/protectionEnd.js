@@ -12,7 +12,7 @@ class ProtectionEnd extends Listener {
     exec(msg, reason) {
         const client = this.client;
         const language = client.ensureMemberLanguage(msg.member);
-        const command = language.commands.destruction;
+        const command = language.commands.protection;
 
         client.othersDB.set('protection', false, 'started');
 
