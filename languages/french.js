@@ -19,9 +19,9 @@ const french = {
         },
         protection: {
             start: {
-                content: (user, villagers, time) => `${user}, protection commencée. Tu dois protéger un village de ${villagers} villageois ! Les ennemis du Dark Territory arriveront dans ${time} !`,
+                content: (user, villagers, time) => `${user}, protection commencée. Tu dois protéger un village de ${villagers} villageois ! Les troupes du Dark Territory arriveront dans ${time} !`,
                 title: 'Explication du fonctionnement du jeu',
-                explenation: 'Vous et votre équipe devez protéger les villageois de ce village. Vous pouvez utiliser ``protect`` pour en protéger quelques uns ou les sorts (liste disponible dans les messages épinglés). Lorsque la limite de temps sera dépassée la partie sera terminée ; vous devez protéger les villageois avant que les ennemis du Dark Territory n\'arrivent. Bonne chance, que le bon coté gagne !'
+                explenation: 'Vous et votre équipe devez protéger les villageois de ce village. Vous pouvez utiliser ``protect`` pour en protéger quelques uns ou les sorts (liste disponible dans les messages épinglés). Lorsque la limite de temps sera dépassée la partie sera terminée ; vous devez protéger les villageois avant que les troupes du Dark Territory n\'arrivent. Bonne chance, que le bon coté gagne !'
             },
             action: {
                 spell: (user, spellName, kills, villagers) => `${user}, tu as utilisé le sort **${spellName}** et protégé ${kills} villageois. Il en reste ${villagers} à protéger`,
@@ -31,7 +31,7 @@ const french = {
             end: {
                 no_point: () => `Personne n'a gagné de points :(`,
                 points: (points) => `Bravo, vous avez gagné ! Voici les points rapportés :${points}`,
-                timeout: (points) => `Les ennemis du Dark Territory sont arrivés et vous n'avez pas eu le temps de sauver tous les villageois ! Voici les points rapportés :${points}`
+                timeout: (points) => `Les troupes du Dark Territory sont arrivées et vous n'avez pas eu le temps de sauver tous les villageois ! Voici les points rapportés :${points}`
             }
         }
     },
