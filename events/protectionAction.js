@@ -26,20 +26,20 @@ class ProtectionAction extends Listener {
                 aliases: ['proteger', 'protéger', 'protégé', 'protege']
             },
             {
-                name: 'enhance armement',
-                id: 'enhanced_armement',
+                name: 'teleportation',
+                id: 'teleportation',
                 aliases: [],
                 cooldown: 3600000 // 1h
             },
             {
-                name: 'deep freeze',
-                id: 'deep_freeze',
+                name: 'invisibility',
+                id: 'invisibility',
                 aliases: [],
                 cooldown: 600000 // 10m
             },
             {
-                name: 'release recollection',
-                id: 'release_recollection',
+                name: 'shield',
+                id: 'shield',
                 aliases: [],
                 cooldown: 300000 // 5m
             }
@@ -71,20 +71,20 @@ class ProtectionAction extends Listener {
 
         let kills = 0;
 
-        if (action === 'attack') {
+        if (action === 'protect') {
             kills = client.random(2, 8);
-        } else if (action === 'enhance armement') {
+        } else if (action === 'teleportation') {
             kills = client.random(100, 150)
-        } else if (action === 'generate aerial element') {
+        } else if (action === 'shield') {
             kills = client.random(10, 50)
         }
 
-        if (action === 'deep freeze') {
+        if (action === 'invisibility') {
             client.usersDB.set(msg.author.id, Date.now() + 120000, `cooldowns.spells.global_boost`);
-            return msg.channel.send(command.action.deep_freeze(msg.author));
+            return msg.channel.send(command.action.invisibility(msg.author));
         }
 
-        if (boost && action !== 'enhance armement') kills *= (client.random(20, 40) / 10);
+        if (boost && action !== 'teleportation') kills *= (client.random(20, 40) / 10);
 
         kills = Math.round(kills);
 

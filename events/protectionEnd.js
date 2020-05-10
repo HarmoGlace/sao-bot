@@ -14,13 +14,13 @@ class ProtectionEnd extends Listener {
         const language = client.ensureMemberLanguage(msg.member);
         const command = language.commands.destruction;
 
-        client.othersDB.set('destruction', false, 'started');
+        client.othersDB.set('protection', false, 'started');
 
-        const {villagers: {total, current}} = client.othersDB.get('destruction');
+        const {villagers: {total, current}} = client.othersDB.get('protection');
 
         const ratioTotal = 100 - (current === 0 ? 0 : current / total * 100);
 
-        const teams = client.othersDB.get('destruction', 'teams');
+        const teams = client.othersDB.get('protection', 'teams');
 
         teams.sort((a, b) => b.kills - a.kills);
 
@@ -38,12 +38,16 @@ class ProtectionEnd extends Listener {
             team.points.add(points);
             logs.push({team: team, points: points, percentage: (teamRatio * 100).toFixed(1)});
         }
+            const pointsFormated = logs.map(team => `${team.team.name} : ${team.points} points (${team.percentage} %)`).join('``\n```')
 
-        if (logs.length === 0) {
-            msg.channel.send(command.end.no_point());
-        } else {
-            msg.channel.send(command.end.points(`\n\n\`\`${logs.map(team => `${team.team.name} : ${team.points} points (${team.percentage} %)`).join('``\n```')}\`\``));
-        }
+            if (reason === 'timeout') {
+                msg.channel.send(command.end.timeout(`\n\n\`\`${pointsFormated ? pointsFormated : command.end.no_point()}\`\``));
+            } else {
+                msg.channel.send(command.end.points(`\n\n\`\`${pointsFormated ? pointsFormated : command.end.no_point()}\`\``));
+            }
+
+
+
 
 
 

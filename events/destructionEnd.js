@@ -39,10 +39,12 @@ class DestructionEnd extends Listener {
             logs.push({team: team, points: points, percentage: (teamRatio * 100).toFixed(1)});
         }
 
-        if (logs.length === 0) {
-            msg.channel.send(command.end.no_point());
+        const pointsFormated = logs.map(team => `${team.team.name} : ${team.points} points (${team.percentage} %)`).join('``\n```')
+
+        if (reason === 'timeout') {
+            msg.channel.send(command.end.timeout(`\n\n\`\`${pointsFormated ? pointsFormated : command.end.no_point()}\`\``));
         } else {
-            msg.channel.send(command.end.points(`\n\n\`\`${logs.map(team => `${team.team.name} : ${team.points} points (${team.percentage} %)`).join('``\n```')}\`\``));
+            msg.channel.send(command.end.points(`\n\n\`\`${pointsFormated ? pointsFormated : command.end.no_point()}\`\``));
         }
 
 

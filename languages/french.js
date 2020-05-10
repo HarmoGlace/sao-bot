@@ -10,8 +10,9 @@ const french = {
                 attack: (user, kills, villagers) => `${user}, tu as tué ${kills} villageois. Il en reste ${villagers}`
             },
             end: {
-                no_point: () => `Fin ! Personne n'a gagné de points :(`,
-                points: (points) => `Fin ! Voici les points rapportés:${points}`
+                no_point: () => `Personne n'a gagné de points :(`,
+                points: (points) => `Fin ! Voici les points rapportés:${points}`,
+                timeout: (points) => `Les chevaliers de l'intégrité sont arrivés, vous avez perdu ! Voici les points rapportés:${points}`
             }
         },
         protection: {
@@ -19,13 +20,14 @@ const french = {
                 content: (user, villagers, time) => `${user}, protection commencée. Tu dois protéger un village avec ${villagers} villageois ! Les ennemis du Dark Territory arriveront dans ${time} !`
             },
             action: {
-                spell: (user, spellName, kills, villagers) => `${user}, tu as utilisé le sort **${spellName}** et protégé ${kills} villageois. Il en reste ${villagers}`,
-                deep_freeze: (user) => `${user}, tu utilises le sort **Deep Freeze**. Pendant 2 minutes tu protégeras plus d'humains`,
-                attack: (user, kills, villagers) => `${user}, tu as protégé ${kills} villageois. Il en reste ${villagers}`
+                spell: (user, spellName, kills, villagers) => `${user}, tu as utilisé le sort **${spellName}** et protégé ${kills} villageois. Il en reste ${villagers} à protéger`,
+                invisibility: (user) => `${user}, tu utilises le sort **Invisibility**. Pendant 2 minutes tu protégeras plus d'humains !`,
+                protect: (user, kills, villagers) => `${user}, tu as protégé ${kills} villageois. Il en reste ${villagers}`
             },
             end: {
-                no_point: () => `Fin ! Personne n'a gagné de points :(`,
-                points: (points) => `Fin ! Voici les points rapportés:${points}`
+                no_point: () => `Personne n'a gagné de points :(`,
+                points: (points) => `Fin ! Voici les points rapportés :${points}`,
+                timeout: (points) => `Les ennemis du Dark Territory sont arrivés et vous n'avez pas eu le temps de sauver tous les villageois ! Voici les points rapportés :${points}`
             }
         }
     },
