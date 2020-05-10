@@ -22,7 +22,7 @@ class Rank extends Command {
 
         const { level, xp } = client.ensureMember(member);
 
-        const {position: {number}} = client.getLeaderboard({member:  member});
+        const {position: {number}} = client.getLeaderboard({member:  member, secondData: 'xp'});
 
         return msg.channel.send({embed: {
                 title: 'Niveau',
