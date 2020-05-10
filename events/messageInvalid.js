@@ -34,7 +34,7 @@ class MessageInvalid extends Listener {
 
             client.usersDB.math(message.author.id, "+", 1, "level");
 
-            const niveau = client.usersDB.get(msg.author.id, "level");
+            const niveau = client.usersDB.get(message.author.id, "level");
             const points = niveau * 35 * client.othersDB.get("boost");
 
             client.usersDB.math(message.author.id, "+", points, "points");
