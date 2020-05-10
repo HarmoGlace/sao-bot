@@ -47,8 +47,9 @@ class ProtectionEnd extends Listener {
             }
 
         for (const [id, kills] of Object.entries(players)) {
-            const points = kills / total * pointsTotal;
-            client.usersDB.math(id, '+', points, 'kills')
+            const points = Math.round(kills / total * pointsTotal);
+            client.usersDB.math(id, '+', kills, 'kills')
+            client.usersDB.math(id, '+', points, 'points')
         }
 
 

@@ -213,9 +213,7 @@ class Client extends AkairoClient {
             },
             current: team ? team.id : false,
             points: 0,
-            totalPoints: 0,
-            kills: 0,
-            currentKills: 0
+            kills: 0
         });
 
     }

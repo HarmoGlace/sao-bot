@@ -112,6 +112,7 @@ class DestructionAction extends Listener {
         }
 
         client.othersDB.set('destruction', current, 'villagers.current');
+        client.othersDB.ensure('destruction', {players: {[msg.author.id]: 0}})
         client.othersDB.math('destruction', '+', kills,  `players.${msg.author.id}`);
 
         if (action === 'attack') {
