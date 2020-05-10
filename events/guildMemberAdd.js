@@ -14,11 +14,11 @@ class GuildMemberAdd extends Listener {
 
         const parents = client.teams.parents()
 
-        parents.sort((a, b) => b.role.members.size - a.role.members.size);
+        parents.sort((a, b) => a.role.members.size - b.role.members.size);
 
         let parent = parents.first();
 
-        parent.subs.sort((a, b) => b.role.members.size - a.role.members.size);
+        parent.subs.sort((a, b) => a.role.members.size - b.role.members.size);
 
         let sub = parent.subs.first();
 
