@@ -20,6 +20,8 @@ class MessageInvalid extends Listener {
 
         if (client.config.ignoredXpChannels.includes(message.channel.id)) return;
 
+        client.updateLeaderboardRoles();
+
         const newXp = client.config.limitedXpChannels.includes(message.channel.id) ? 1 : client.random(1, 5);
 
         const { xp, level } = client.ensureMember(message.member);
