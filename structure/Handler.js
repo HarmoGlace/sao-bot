@@ -768,6 +768,8 @@ class Handler extends AkairoHandler {
      */
     runCooldowns(message, command) {
 
+        const client = this.client;
+
         if (message.system || message.author.bot) return false;
 
         if (command.cooldown) {
@@ -779,7 +781,7 @@ class Handler extends AkairoHandler {
             }
         }
 
-        const client = this.client;
+
 
 
 

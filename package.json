@@ -14,6 +14,7 @@
     "discord-akairo": "github:discord-akairo/discord-akairo",
     "discord.js": "github:discordjs/discord.js",
     "enmap": "^5.2.4",
+    "ms": "^2.1.2",
     "pretty-ms": "^6.0.1"
   }
 }

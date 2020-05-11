@@ -1,11 +1,13 @@
 const Command = require('../structure/Command');
+const ms = require('ms');
 
 class Daily extends Command {
     constructor() {
         super('daily', { // id
-            aliases: ['test'],
+            aliases: ['daily'],
             neededLevel: 3,
-            teamsNeeded: []
+            teamsNeeded: [],
+            cooldown: ms('1d')
         })
     }
 

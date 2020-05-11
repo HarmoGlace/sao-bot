@@ -4,7 +4,7 @@ class LevelError extends Listener {
 
     constructor() {
         super('levelError', {
-            emitter: 'client',
+            emitter: 'commandHandler',
             event: 'levelError'
         });
     }
