@@ -606,9 +606,7 @@ class Handler extends AkairoHandler {
             return true;
         }
 
-        if (message.guild) {
-            this.client.ensureMember(message.member);
-        }
+
 
         if (this.runChannelCheck(message, command)) {
             return true;
@@ -618,13 +616,21 @@ class Handler extends AkairoHandler {
             return true;
         }
 
-        if (this.runTeamCheck(message, command)) {
-            return true;
+        if (message.guild) {
+            this.client.ensureMember(message.member);
+            if (this.runTeamCheck(message, command)) {
+                return true;
+            }
+
+            if (await this.runPermissionChecks(message, command)) {
+                return true;
+            }
+            if (this.runCheckLevel(message, command)) {
+                return true;
+            }
         }
 
-        if (await this.runPermissionChecks(message, command)) {
-            return true;
-        }
+
 
         const reason = this.inhibitorHandler
             ? await this.inhibitorHandler.test('post', message, command)
@@ -638,6 +644,8 @@ class Handler extends AkairoHandler {
         if (this.runCheckLaunched(message, command)) {
             return true;
         }
+
+
 
         if (this.runCooldowns(message, command)) {
             return true;
@@ -834,6 +842,25 @@ class Handler extends AkairoHandler {
         }
 
         return false;
+    }
+
+    runCheckLevel (message, command) {
+
+        const { neededLevel } = command;
+
+        if (!neededLevel) return false;
+
+        const client = this.client;
+
+        const { level } = client.ensureMember(message.member);
+
+        if (level < neededLevel) {
+            this.emit('levelError', message, command, neededLevel, level);
+            return true;
+        }
+
+        return false;
+
     }
 
     /**

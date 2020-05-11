@@ -18,7 +18,7 @@ class MessageInvalid extends Listener {
             client.emit('protectionAction', message);
         }
 
-        if (client.config.ignoredXpChannels.includes(message.channel.id)) return;
+        if (client.config.ignoredXpChannels.includes(message.channel.id) || !message.guild) return;
 
         client.updateLeaderboardRoles();
 
