@@ -414,13 +414,9 @@ class Client extends AkairoClient {
 
         const { raw } = leaderboard;
 
-        console.log(leaderboard)
-
-        for (let i = 0; i < raw.length; i++) {
+        for (let i = 0; i < raw.length && i < 3; i++) {
             if (currents[i] !== raw[i][0]) {
                 const role = this.config.levelRoles[i];
-
-                console.log(raw[i][0], currents[i]);
 
                 const memberBefore = await this.server.members.fetch(currents[i]);
                 const memberAfter = await this.server.members.fetch(raw[i][0]);
@@ -434,6 +430,31 @@ class Client extends AkairoClient {
 
 
     }
+
+    updateLevel = (member, channel = false) => {
+
+    while (this.usersDB.get(member.id, 'xp') >= this.usersDB.get(member.id, 'level') * 25) {
+
+    const toRemove = this.usersDB.get(member.id, 'level') * 25;
+
+    this.usersDB.math(member.id, "-", toRemove, "xp");
+
+    this.usersDB.math(member.id, "+", 1, "level");
+
+    const niveau = this.usersDB.get(member.id, "level");
+    const points = niveau * 35 * this.othersDB.get("boost");
+
+        this.usersDB.math(member.id, "+", points, "points");
+
+    const team = this.getMemberTeam(member);
+
+    if (!team) return;
+
+    team.points.add(points);
+
+    channel.send(`${member}, tu es désormais niveau ${niveau}. Tu as rapporté ${points} à ton équipe`);
+}
+}
 
     setGlobalCooldown = ({id, cooldown}) => {
 
