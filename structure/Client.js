@@ -452,7 +452,7 @@ class Client extends AkairoClient {
 
     team.points.add(points);
 
-    channel.send(`${member}, tu es désormais niveau ${niveau}. Tu as rapporté ${points} à ton équipe`);
+    channel.send(`${member}, tu es désormais niveau ${niveau}. Tu as rapporté ${points} points à ton équipe`);
 }
 }
 

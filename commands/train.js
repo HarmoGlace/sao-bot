@@ -6,7 +6,8 @@ class Daily extends Command {
             aliases: ['train'],
             neededLevel: 3,
             teamsNeeded: [],
-            cooldown: 30000
+            cooldown: 30000,
+            channel: 'train'
         })
     }
 
