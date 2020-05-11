@@ -202,7 +202,7 @@ class Client extends AkairoClient {
         return this.usersDB.ensure(member.id, {
             teams: [],
             xp: 0,
-            level: 0,
+            level: 1,
             cooldowns: {
                 commands: {
 
