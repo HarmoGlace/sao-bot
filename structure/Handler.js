@@ -734,7 +734,7 @@ class Handler extends AkairoHandler {
 
     runCompetitionCheck (msg, command) {
 
-        if (!msg.guild || !command.needCompetition) return true;
+        if (!msg.guild || !command.needCompetition) return false;
 
         const enabled = this.client.othersDB.get('competition');
 
