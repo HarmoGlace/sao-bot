@@ -21,9 +21,11 @@ class Stats extends Command {
 
         const { member } = args;
 
-        const { points } = client.ensureMember(member);
+        const { points, kills } = client.ensureMember(member);
 
         const {position: {number}} = client.getLeaderboard({member:  member, data: 'points'});
+
+        const {position: {number: killsPosition}} = client.getLeaderboard({member: member, data: 'kills'});
 
         return msg.channel.send({embed: {
                 title: 'Points',
@@ -31,7 +33,15 @@ class Stats extends Command {
                 fields: [
                     {
                         name: 'Position dans le classement',
-                        value: client.getPosition(number)
+                        value: client.getPosition(number),
+                    },
+                    {
+                        name: 'Kills',
+                        value: `${client.spaceNumber(kills)} kills`
+                    },
+                    {
+                        name: 'Position dans le classement',
+                        value: client.getPosition(killsPosition)
                     }
                 ],
                 color: 0x4272f5,
