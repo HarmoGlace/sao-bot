@@ -20,7 +20,7 @@ class Leaderboard extends Command {
 
         const points = client.getLeaderboard({
             member: msg.member,
-            dataName: 'points'
+            data: 'points'
         })
 
         let embed = {

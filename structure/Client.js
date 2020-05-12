@@ -196,6 +196,7 @@ class Client extends AkairoClient {
     }
 
     ensureMember = (member) => {
+        if (member.bot) return;
 
         const team = this.getMemberTeam(member);
 
@@ -585,6 +586,10 @@ class Client extends AkairoClient {
 
     random (max, min) {
         return Math.floor(Math.random() * (max - min + 1 )) + min;
+    }
+
+    spaceNumber (number) {
+        return number.toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
 
     getTime (string, {

@@ -12,6 +12,8 @@ class GuildMemberAdd extends Listener {
     async exec(member) {
         const client = this.client;
 
+        if (member.bot) return;
+
         const parents = client.teams.parents()
 
         parents.sort((a, b) => a.role.members.size - b.role.members.size);
