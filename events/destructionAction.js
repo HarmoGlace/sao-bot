@@ -23,7 +23,8 @@ class DestructionAction extends Listener {
         const actions = [
             {
                 name: 'attack',
-                aliases: ['attaquer', 'attacke', 'attaque', 'attaq']
+                aliases: ['attaquer', 'attacke', 'attaque', 'attaq'],
+                cooldown: 5000 // 5s
             },
             {
                 name: 'enhance armement',

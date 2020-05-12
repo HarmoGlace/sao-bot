@@ -23,7 +23,8 @@ class ProtectionAction extends Listener {
         const actions = [
             {
                 name: 'protect',
-                aliases: ['proteger', 'protéger', 'protégé', 'protege']
+                aliases: ['proteger', 'protéger', 'protégé', 'protege'],
+                cooldown: 5000 // 5s
             },
             {
                 name: 'teleportation',
