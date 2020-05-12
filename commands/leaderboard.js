@@ -3,7 +3,7 @@ const Command = require('../structure/Command');
 class Leaderboard extends Command {
     constructor() {
         super('leaderboard', { // id
-            aliases: ['leaderboard', 'levels'],
+            aliases: ['leaderboard', 'levels', 'classement'],
             needCompetition: true
         })
     }
@@ -21,6 +21,11 @@ class Leaderboard extends Command {
         const points = client.getLeaderboard({
             member: msg.member,
             data: 'points'
+        })
+
+        const kills = client.getLeaderboard({
+            member: msg.member,
+            data: 'kills'
         })
 
         let embed = {
@@ -47,6 +52,18 @@ class Leaderboard extends Command {
                 name: 'Ta position',
                 value: client.getPosition(points.position.number)
             })
+        }
+
+        embed.fields.push({
+            name: 'Classement des personnes ayant fait le plus de kills',
+            value: kills.content
+        });
+
+        if (kills.position.number >= 10) {
+            embed.fields.push({
+                name: 'Ta position',
+                value: client.getPosition(kills.position.number)
+            });
         }
 
         return msg.channel.send({embed: embed});
