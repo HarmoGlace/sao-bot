@@ -63,15 +63,7 @@ class DestructionEnd extends Listener {
             },
             timeout: null,
             started: false
-        })
-
-        if (reason === 'timeout') {
-
-
-
-        } else if (reason === 'win') {
-
-        }
+        });
 
     }
 }

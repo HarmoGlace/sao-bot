@@ -75,7 +75,7 @@ class DestructionAction extends Listener {
             kills = client.random(2, 8);
     } else if (action === 'enhance armement') {
             kills = client.random(100, 150)
-        } else if (action === 'generate aerial element') {
+        } else if (action === 'release recollection') {
             kills = client.random(10, 50)
         }
 

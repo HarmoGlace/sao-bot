@@ -22,6 +22,10 @@ class Ready extends Listener {
 
         await client.updatePoints();
 
+        client.subsTeamsDB.changed((key, oldValue, newValue) => {
+            if (oldValue) client.updatePoints();
+        })
+
     }
 }
 
