@@ -19,7 +19,7 @@ class Protection extends Command {
         const command = language.commands.protection;
 
         const villagers = client.random(1000, 5000);
-        const timeout = Math.floor(client.random(villagers / 7 + 200, villagers / 9 + 200)) * 1000;
+        const timeout = Math.floor(client.random(villagers / 4 + 200, villagers / 6 + 200)) * 1000;
 
         client.othersDB.set('protection', {
             started: true,
