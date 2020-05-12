@@ -7,7 +7,8 @@ class Daily extends Command {
             aliases: ['daily'],
             neededLevel: 3,
             teamsNeeded: [],
-            cooldown: ms('1d')
+            cooldown: ms('1d'),
+            needCompetition: true
         })
     }
 

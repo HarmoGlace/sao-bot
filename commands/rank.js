@@ -10,7 +10,8 @@ class Rank extends Command {
                     type: 'member',
                     default: message => message.member
                 }
-            ]
+            ],
+            needCompetition: true
         })
     }
 

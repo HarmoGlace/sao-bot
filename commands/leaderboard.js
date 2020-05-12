@@ -3,7 +3,8 @@ const Command = require('../structure/Command');
 class Leaderboard extends Command {
     constructor() {
         super('leaderboard', { // id
-            aliases: ['leaderboard', 'levels']
+            aliases: ['leaderboard', 'levels'],
+            needCompetition: true
         })
     }
 

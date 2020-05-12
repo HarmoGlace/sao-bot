@@ -7,7 +7,8 @@ class Daily extends Command {
             neededLevel: 3,
             teamsNeeded: [],
             cooldown: 30000,
-            channel: 'train'
+            channel: 'train',
+            needCompetition: true
         })
     }
 

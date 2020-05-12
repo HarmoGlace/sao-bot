@@ -7,7 +7,8 @@ class Protection extends Command {
             aliases: ['protection'],
             launch: true,
             parentTeamCooldown: 600000,
-            channel: 'protection'
+            channel: 'protection',
+            needCompetition: true
         })
     }
 

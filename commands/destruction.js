@@ -7,7 +7,8 @@ class Destruction extends Command {
             aliases: ['destruction'],
             launch: true,
             parentTeamCooldown: 600000,
-            channel: 'destruction'
+            channel: 'destruction',
+            needCompetition: true
         })
     }
 
