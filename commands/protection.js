@@ -53,7 +53,7 @@ class Protection extends Command {
 
     isLaunch (msg) {
         const client = this.client;
-        const { started } = client.othersDB.get('destruction');
+        const { started } = client.othersDB.get('protection');
         return started;
     }
 }
